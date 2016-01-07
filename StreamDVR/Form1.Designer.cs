@@ -35,7 +35,7 @@
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1321, 662);
+            this.ClientSize = new System.Drawing.Size(869, 662);
             this.Name = "rootForm";
             this.Text = "StreamDVR";
             this.ResumeLayout(false);
