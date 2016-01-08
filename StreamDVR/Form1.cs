@@ -288,6 +288,14 @@ namespace StreamDVR
 
         private void buttonLoad_Click(object sender, EventArgs e)
         {
+            loadTasks();
+        }
+
+        public void loadTasks()
+        {
+            //empty listview first
+            listViewTasks.Items.Clear();
+
             // Get the service on the local machine
             using (TaskService ts = new TaskService())
             {
@@ -330,6 +338,51 @@ namespace StreamDVR
             foreach (TaskFolder sfld in fld.SubFolders)
             { 
                 EnumFolderTasks(sfld);
+            }
+        }
+
+        private void buttonCreate_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void buttonModify_Click(object sender, EventArgs e)
+        {
+            string selectedItemText;
+
+            if (listViewTasks.SelectedItems.Count > 0)
+            {
+                foreach (ListViewItem selectedItem in listViewTasks.SelectedItems)
+                {
+                    selectedItemText = selectedItem.Text;
+                    openTaskEditor(selectedItemText);
+                }
+            }
+        }
+
+        public void openTaskEditor(string selectedItemText)
+        {
+            //receives the text of the selected item and opens the task editor dialog
+            using (TaskService ts = new TaskService())
+            {
+                foreach (TaskFolder taskFolder in ts.RootFolder.SubFolders)
+                {
+                    if (taskFolder.Name == "StreamDVR")
+                    {
+                        foreach (Microsoft.Win32.TaskScheduler.Task task in taskFolder.Tasks)
+                        {
+                            if (selectedItemText == task.Name)
+                            {
+                                TriggerEditDialog triggerForm = new TriggerEditDialog();
+                                if (triggerForm.ShowDialog() == DialogResult.OK)
+                                {
+                                    task.Definition.Triggers.Add(triggerForm.Trigger);
+                                    task.RegisterChanges();
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
     }

@@ -6,9 +6,9 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("StreamDVR")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Application to schedule recording of network streams")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("StarkTemplar")]
 [assembly: AssemblyProduct("StreamDVR")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]

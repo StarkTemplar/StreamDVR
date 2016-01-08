@@ -64,6 +64,8 @@
             this.labelLivestreamer = new System.Windows.Forms.Label();
             this.textBoxLivestreamer = new System.Windows.Forms.TextBox();
             this.tabPageSchedule = new System.Windows.Forms.TabPage();
+            this.buttonModify = new System.Windows.Forms.Button();
+            this.buttonCreate = new System.Windows.Forms.Button();
             this.listViewTasks = new System.Windows.Forms.ListView();
             this.taskName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.NextRunTime = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -491,6 +493,8 @@
             // 
             // tabPageSchedule
             // 
+            this.tabPageSchedule.Controls.Add(this.buttonModify);
+            this.tabPageSchedule.Controls.Add(this.buttonCreate);
             this.tabPageSchedule.Controls.Add(this.listViewTasks);
             this.tabPageSchedule.Controls.Add(this.buttonLoad);
             this.tabPageSchedule.Location = new System.Drawing.Point(4, 24);
@@ -501,6 +505,26 @@
             this.tabPageSchedule.Text = "  Schedule  ";
             this.tabPageSchedule.UseVisualStyleBackColor = true;
             // 
+            // buttonModify
+            // 
+            this.buttonModify.Location = new System.Drawing.Point(748, 607);
+            this.buttonModify.Name = "buttonModify";
+            this.buttonModify.Size = new System.Drawing.Size(75, 23);
+            this.buttonModify.TabIndex = 4;
+            this.buttonModify.Text = "Modify";
+            this.buttonModify.UseVisualStyleBackColor = true;
+            this.buttonModify.Click += new System.EventHandler(this.buttonModify_Click);
+            // 
+            // buttonCreate
+            // 
+            this.buttonCreate.Location = new System.Drawing.Point(657, 607);
+            this.buttonCreate.Name = "buttonCreate";
+            this.buttonCreate.Size = new System.Drawing.Size(75, 23);
+            this.buttonCreate.TabIndex = 3;
+            this.buttonCreate.Text = "Create";
+            this.buttonCreate.UseVisualStyleBackColor = true;
+            this.buttonCreate.Click += new System.EventHandler(this.buttonCreate_Click);
+            // 
             // listViewTasks
             // 
             this.listViewTasks.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
@@ -508,7 +532,9 @@
             this.NextRunTime,
             this.LastRunTime});
             this.listViewTasks.Dock = System.Windows.Forms.DockStyle.Top;
+            this.listViewTasks.GridLines = true;
             this.listViewTasks.Location = new System.Drawing.Point(3, 3);
+            this.listViewTasks.MultiSelect = false;
             this.listViewTasks.Name = "listViewTasks";
             this.listViewTasks.Size = new System.Drawing.Size(915, 255);
             this.listViewTasks.TabIndex = 2;
@@ -622,6 +648,8 @@
         private System.Windows.Forms.ColumnHeader taskName;
         private System.Windows.Forms.ColumnHeader NextRunTime;
         private System.Windows.Forms.ColumnHeader LastRunTime;
+        private System.Windows.Forms.Button buttonCreate;
+        private System.Windows.Forms.Button buttonModify;
     }
 }
 
