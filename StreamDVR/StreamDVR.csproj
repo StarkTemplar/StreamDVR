@@ -32,8 +32,24 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AeroWizard">
+      <HintPath>..\..\TaskSchedulerEditor\v4.0\AeroWizard.dll</HintPath>
+    </Reference>
+    <Reference Include="CubicOrange.Windows.Forms.ActiveDirectory">
+      <HintPath>..\..\TaskSchedulerEditor\v4.0\CubicOrange.Windows.Forms.ActiveDirectory.dll</HintPath>
+    </Reference>
+    <Reference Include="GroupControls">
+      <HintPath>..\..\TaskSchedulerEditor\v4.0\GroupControls.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Win32.TaskScheduler">
+      <HintPath>..\..\TaskScheduler\v4.0\Microsoft.Win32.TaskScheduler.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Win32.TaskSchedulerEditor">
+      <HintPath>..\..\TaskSchedulerEditor\v4.0\Microsoft.Win32.TaskSchedulerEditor.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.DirectoryServices" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -43,6 +59,9 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="TimeSpan2">
+      <HintPath>..\..\TaskSchedulerEditor\v4.0\TimeSpan2.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Form1.cs">
@@ -67,6 +86,7 @@
     </Compile>
     <None Include="bat\genericStream.bat" />
     <None Include="bat\openVideo.bat" />
+    <None Include="Properties\DataSources\Microsoft.Win32.TaskScheduler.Task.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
