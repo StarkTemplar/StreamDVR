@@ -64,13 +64,23 @@
             this.labelLivestreamer = new System.Windows.Forms.Label();
             this.textBoxLivestreamer = new System.Windows.Forms.TextBox();
             this.tabPageSchedule = new System.Windows.Forms.TabPage();
-            this.buttonModify = new System.Windows.Forms.Button();
-            this.buttonCreate = new System.Windows.Forms.Button();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.listViewTasks = new System.Windows.Forms.ListView();
             this.taskName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.streamUrl = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.streamId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.streamView = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.streamEncode = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.NextRunTime = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.LastRunTime = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.buttonLoad = new System.Windows.Forms.Button();
+            this.buttonAddTrigger = new System.Windows.Forms.Button();
+            this.listViewTriggers = new System.Windows.Forms.ListView();
+            this.triggerDate = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.triggerStatus = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.buttonAddTask = new System.Windows.Forms.Button();
+            this.buttonTriggerDelete = new System.Windows.Forms.Button();
+            this.buttonTaskEdit = new System.Windows.Forms.Button();
+            this.buttonTaskDelete = new System.Windows.Forms.Button();
             this.tabPageAbout = new System.Windows.Forms.TabPage();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.tabControl1.SuspendLayout();
@@ -79,6 +89,7 @@
             this.groupBoxOutput.SuspendLayout();
             this.groupBoxExe.SuspendLayout();
             this.tabPageSchedule.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -493,10 +504,7 @@
             // 
             // tabPageSchedule
             // 
-            this.tabPageSchedule.Controls.Add(this.buttonModify);
-            this.tabPageSchedule.Controls.Add(this.buttonCreate);
-            this.tabPageSchedule.Controls.Add(this.listViewTasks);
-            this.tabPageSchedule.Controls.Add(this.buttonLoad);
+            this.tabPageSchedule.Controls.Add(this.tableLayoutPanel1);
             this.tabPageSchedule.Location = new System.Drawing.Point(4, 24);
             this.tabPageSchedule.Name = "tabPageSchedule";
             this.tabPageSchedule.Padding = new System.Windows.Forms.Padding(3);
@@ -505,46 +513,79 @@
             this.tabPageSchedule.Text = "  Schedule  ";
             this.tabPageSchedule.UseVisualStyleBackColor = true;
             // 
-            // buttonModify
+            // tableLayoutPanel1
             // 
-            this.buttonModify.Location = new System.Drawing.Point(748, 607);
-            this.buttonModify.Name = "buttonModify";
-            this.buttonModify.Size = new System.Drawing.Size(75, 23);
-            this.buttonModify.TabIndex = 4;
-            this.buttonModify.Text = "Modify";
-            this.buttonModify.UseVisualStyleBackColor = true;
-            this.buttonModify.Click += new System.EventHandler(this.buttonModify_Click);
-            // 
-            // buttonCreate
-            // 
-            this.buttonCreate.Location = new System.Drawing.Point(657, 607);
-            this.buttonCreate.Name = "buttonCreate";
-            this.buttonCreate.Size = new System.Drawing.Size(75, 23);
-            this.buttonCreate.TabIndex = 3;
-            this.buttonCreate.Text = "Create";
-            this.buttonCreate.UseVisualStyleBackColor = true;
-            this.buttonCreate.Click += new System.EventHandler(this.buttonCreate_Click);
+            this.tableLayoutPanel1.ColumnCount = 4;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 70F));
+            this.tableLayoutPanel1.Controls.Add(this.listViewTasks, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.buttonAddTrigger, 0, 3);
+            this.tableLayoutPanel1.Controls.Add(this.listViewTriggers, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this.buttonAddTask, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.buttonTaskEdit, 1, 1);
+            this.tableLayoutPanel1.Controls.Add(this.buttonTaskDelete, 2, 1);
+            this.tableLayoutPanel1.Controls.Add(this.buttonTriggerDelete, 1, 3);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 4;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 40F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 40F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(915, 639);
+            this.tableLayoutPanel1.TabIndex = 6;
             // 
             // listViewTasks
             // 
+            this.listViewTasks.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.listViewTasks.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.taskName,
+            this.streamUrl,
+            this.streamId,
+            this.streamView,
+            this.streamEncode,
             this.NextRunTime,
             this.LastRunTime});
-            this.listViewTasks.Dock = System.Windows.Forms.DockStyle.Top;
+            this.tableLayoutPanel1.SetColumnSpan(this.listViewTasks, 4);
             this.listViewTasks.GridLines = true;
             this.listViewTasks.Location = new System.Drawing.Point(3, 3);
             this.listViewTasks.MultiSelect = false;
             this.listViewTasks.Name = "listViewTasks";
-            this.listViewTasks.Size = new System.Drawing.Size(915, 255);
+            this.listViewTasks.Size = new System.Drawing.Size(909, 249);
             this.listViewTasks.TabIndex = 2;
             this.listViewTasks.UseCompatibleStateImageBehavior = false;
             this.listViewTasks.View = System.Windows.Forms.View.Details;
+            this.listViewTasks.SelectedIndexChanged += new System.EventHandler(this.listViewTasks_SelectedIndexChanged);
             // 
             // taskName
             // 
             this.taskName.Text = "Name";
-            this.taskName.Width = 187;
+            this.taskName.Width = 132;
+            // 
+            // streamUrl
+            // 
+            this.streamUrl.Text = "Stream URL";
+            this.streamUrl.Width = 156;
+            // 
+            // streamId
+            // 
+            this.streamId.Text = "File Tag";
+            // 
+            // streamView
+            // 
+            this.streamView.Text = "Display Stream";
+            this.streamView.Width = 94;
+            // 
+            // streamEncode
+            // 
+            this.streamEncode.Text = "Encode Stream";
+            this.streamEncode.Width = 99;
             // 
             // NextRunTime
             // 
@@ -556,15 +597,81 @@
             this.LastRunTime.Text = "Last Run Time";
             this.LastRunTime.Width = 165;
             // 
-            // buttonLoad
+            // buttonAddTrigger
             // 
-            this.buttonLoad.Location = new System.Drawing.Point(838, 607);
-            this.buttonLoad.Name = "buttonLoad";
-            this.buttonLoad.Size = new System.Drawing.Size(75, 23);
-            this.buttonLoad.TabIndex = 1;
-            this.buttonLoad.Text = "Load";
-            this.buttonLoad.UseVisualStyleBackColor = true;
-            this.buttonLoad.Click += new System.EventHandler(this.buttonLoad_Click);
+            this.buttonAddTrigger.Location = new System.Drawing.Point(3, 576);
+            this.buttonAddTrigger.Name = "buttonAddTrigger";
+            this.buttonAddTrigger.Size = new System.Drawing.Size(75, 23);
+            this.buttonAddTrigger.TabIndex = 4;
+            this.buttonAddTrigger.Text = "Add";
+            this.buttonAddTrigger.UseVisualStyleBackColor = true;
+            this.buttonAddTrigger.Click += new System.EventHandler(this.buttonModify_Click);
+            // 
+            // listViewTriggers
+            // 
+            this.listViewTriggers.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.listViewTriggers.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.triggerDate,
+            this.triggerStatus});
+            this.tableLayoutPanel1.SetColumnSpan(this.listViewTriggers, 4);
+            this.listViewTriggers.GridLines = true;
+            this.listViewTriggers.Location = new System.Drawing.Point(3, 321);
+            this.listViewTriggers.MultiSelect = false;
+            this.listViewTriggers.Name = "listViewTriggers";
+            this.listViewTriggers.Size = new System.Drawing.Size(909, 249);
+            this.listViewTriggers.TabIndex = 5;
+            this.listViewTriggers.UseCompatibleStateImageBehavior = false;
+            this.listViewTriggers.View = System.Windows.Forms.View.Details;
+            // 
+            // triggerDate
+            // 
+            this.triggerDate.Text = "Date";
+            this.triggerDate.Width = 394;
+            // 
+            // triggerStatus
+            // 
+            this.triggerStatus.Text = "Status";
+            this.triggerStatus.Width = 198;
+            // 
+            // buttonAddTask
+            // 
+            this.buttonAddTask.Location = new System.Drawing.Point(3, 258);
+            this.buttonAddTask.Name = "buttonAddTask";
+            this.buttonAddTask.Size = new System.Drawing.Size(75, 23);
+            this.buttonAddTask.TabIndex = 3;
+            this.buttonAddTask.Text = "Add";
+            this.buttonAddTask.UseVisualStyleBackColor = true;
+            this.buttonAddTask.Click += new System.EventHandler(this.buttonCreate_Click);
+            // 
+            // buttonTriggerDelete
+            // 
+            this.buttonTriggerDelete.Location = new System.Drawing.Point(94, 576);
+            this.buttonTriggerDelete.Name = "buttonTriggerDelete";
+            this.buttonTriggerDelete.Size = new System.Drawing.Size(75, 23);
+            this.buttonTriggerDelete.TabIndex = 7;
+            this.buttonTriggerDelete.Text = "Delete";
+            this.buttonTriggerDelete.UseVisualStyleBackColor = true;
+            this.buttonTriggerDelete.Click += new System.EventHandler(this.buttonTriggerDelete_Click);
+            // 
+            // buttonTaskEdit
+            // 
+            this.buttonTaskEdit.Location = new System.Drawing.Point(94, 258);
+            this.buttonTaskEdit.Name = "buttonTaskEdit";
+            this.buttonTaskEdit.Size = new System.Drawing.Size(75, 23);
+            this.buttonTaskEdit.TabIndex = 8;
+            this.buttonTaskEdit.Text = "Edit";
+            this.buttonTaskEdit.UseVisualStyleBackColor = true;
+            // 
+            // buttonTaskDelete
+            // 
+            this.buttonTaskDelete.Location = new System.Drawing.Point(185, 258);
+            this.buttonTaskDelete.Name = "buttonTaskDelete";
+            this.buttonTaskDelete.Size = new System.Drawing.Size(75, 23);
+            this.buttonTaskDelete.TabIndex = 9;
+            this.buttonTaskDelete.Text = "Delete";
+            this.buttonTaskDelete.UseVisualStyleBackColor = true;
             // 
             // tabPageAbout
             // 
@@ -584,9 +691,11 @@
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(929, 666);
             this.Controls.Add(this.tabControl1);
             this.Name = "rootForm";
+            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.Text = "StreamDVR";
             this.Load += new System.EventHandler(this.rootForm_Load);
             this.tabControl1.ResumeLayout(false);
@@ -599,6 +708,7 @@
             this.groupBoxExe.ResumeLayout(false);
             this.groupBoxExe.PerformLayout();
             this.tabPageSchedule.ResumeLayout(false);
+            this.tableLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -643,13 +753,23 @@
         private System.Windows.Forms.Label labelRequired;
         private System.Windows.Forms.Button buttonConfigSave;
         private System.Windows.Forms.Button buttonConfigDiscard;
-        private System.Windows.Forms.Button buttonLoad;
         private System.Windows.Forms.ListView listViewTasks;
         private System.Windows.Forms.ColumnHeader taskName;
         private System.Windows.Forms.ColumnHeader NextRunTime;
         private System.Windows.Forms.ColumnHeader LastRunTime;
-        private System.Windows.Forms.Button buttonCreate;
-        private System.Windows.Forms.Button buttonModify;
+        private System.Windows.Forms.Button buttonAddTask;
+        private System.Windows.Forms.Button buttonAddTrigger;
+        private System.Windows.Forms.ColumnHeader streamUrl;
+        private System.Windows.Forms.ColumnHeader streamId;
+        private System.Windows.Forms.ColumnHeader streamView;
+        private System.Windows.Forms.ColumnHeader streamEncode;
+        private System.Windows.Forms.ListView listViewTriggers;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.ColumnHeader triggerDate;
+        private System.Windows.Forms.ColumnHeader triggerStatus;
+        private System.Windows.Forms.Button buttonTriggerDelete;
+        private System.Windows.Forms.Button buttonTaskEdit;
+        private System.Windows.Forms.Button buttonTaskDelete;
     }
 }
 

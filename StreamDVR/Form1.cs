@@ -29,6 +29,17 @@ namespace StreamDVR
         public rootForm()
         {
             InitializeComponent();
+
+            tabControl1.Selecting += new TabControlCancelEventHandler(tabControl1_Selecting);
+        }
+
+        void tabControl1_Selecting(object sender, TabControlCancelEventArgs e)
+        {
+            //check which tab is selected. if it is the schedule tab load the tasks and triggers
+            if (tabControl1.SelectedTab == tabControl1.TabPages["tabPageSchedule"])
+            {
+                loadTasks();
+            }
         }
 
         private void buttonLivestreamer_Click(object sender, EventArgs e)
@@ -315,6 +326,10 @@ namespace StreamDVR
         {
             string nextruntime;
             string lastruntime;
+            string streamUrl;
+            string streamId;
+            string streamView;
+            string streamEncode;
 
             if (fld.Name == "StreamDVR")
             {
@@ -322,7 +337,25 @@ namespace StreamDVR
                 {
                     nextruntime = Convert.ToString(task.NextRunTime);
                     lastruntime = Convert.ToString(task.LastRunTime);
+                    string stream = task.Definition.Actions.ToString();
 
+                    char[] delimiterChars = { ' ' };
+                    try
+                    {
+                        string[] words = stream.Split(delimiterChars);
+                        streamUrl = words[1];
+                        streamId = words[2];
+                        streamView = words[3];
+                        streamEncode = words[3];
+                    }
+                    catch
+                    {
+                        //task must not have parameters we are looking for
+                        streamUrl = "";
+                        streamId = "";
+                        streamView = "";
+                        streamEncode = "";
+                    }
                     //check to see if next run time or last run time are null. this is returned as 1/1/0001 12:00:00 AM
                     if (nextruntime == "1/1/0001 12:00:00 AM")
                     {
@@ -332,7 +365,7 @@ namespace StreamDVR
                     {
                         lastruntime = "";
                     }
-                    listViewTasks.Items.Add(new ListViewItem(new string[] { task.Name, nextruntime, lastruntime }));
+                    listViewTasks.Items.Add(new ListViewItem(new string[] { task.Name, streamUrl, streamId, streamView, streamEncode, nextruntime, lastruntime }));
                 }
             }
             foreach (TaskFolder sfld in fld.SubFolders)
@@ -343,7 +376,20 @@ namespace StreamDVR
 
         private void buttonCreate_Click(object sender, EventArgs e)
         {
+              // Create a new instance of the Form2 class
+              Form2 settingsForm = new Form2();
 
+              // Show the settings form
+              settingsForm.ShowDialog();
+              if (settingsForm.DialogResult != DialogResult.Cancel)
+              {
+                addTask(settingsForm.form2StreamUrl, settingsForm.form2StreamTag, settingsForm.form2StreamTranscode, settingsForm.form2StreamMedia);
+              }
+        }
+
+        public void addTask(string url, string tag, bool transcode, bool media)
+        {
+            //var test = 0;
         }
 
         private void buttonModify_Click(object sender, EventArgs e)
@@ -355,12 +401,14 @@ namespace StreamDVR
                 foreach (ListViewItem selectedItem in listViewTasks.SelectedItems)
                 {
                     selectedItemText = selectedItem.Text;
-                    openTaskEditor(selectedItemText);
+                    openTaskEditor(selectedItemText, null);
+                    loadTasks();
+                    loadTriggers(selectedItemText);
                 }
             }
         }
 
-        public void openTaskEditor(string selectedItemText)
+        public void openTaskEditor(string selectedItemText, string triggerToDelete)
         {
             //receives the text of the selected item and opens the task editor dialog
             using (TaskService ts = new TaskService())
@@ -373,15 +421,106 @@ namespace StreamDVR
                         {
                             if (selectedItemText == task.Name)
                             {
-                                TriggerEditDialog triggerForm = new TriggerEditDialog();
-                                if (triggerForm.ShowDialog() == DialogResult.OK)
+                                if (triggerToDelete != null)
                                 {
-                                    task.Definition.Triggers.Add(triggerForm.Trigger);
-                                    task.RegisterChanges();
+                                    int triggerIndex = 0;
+
+                                    foreach (Trigger trigger in task.Definition.Triggers)
+                                    {
+                                        if (trigger.ToString() == triggerToDelete)
+                                        {
+                                            DialogResult dialogResult = MessageBox.Show("Are you sure you want to delete this scheduled recording?", "Are you sure?", MessageBoxButtons.YesNo);
+                                            if (dialogResult == DialogResult.Yes)
+                                            {
+                                                task.Definition.Triggers.RemoveAt(triggerIndex);
+                                                task.RegisterChanges();
+                                            }
+                                        }
+                                        triggerIndex++;
+                                    }
+                                } else
+                                {
+                                    TriggerEditDialog triggerForm = new TriggerEditDialog();
+                                    if (triggerForm.ShowDialog() == DialogResult.OK)
+                                    {
+                                        task.Definition.Triggers.Add(triggerForm.Trigger);
+                                        task.RegisterChanges();
+                                    }
                                 }
                             }
                         }
                     }
+                }
+            }
+        }
+
+        private void listViewTasks_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //when listViewTasks is selected. load the triggers for that task into listViewTriggers
+
+            string selectedItemText;
+
+            if (listViewTasks.SelectedItems.Count > 0)
+            {
+                foreach (ListViewItem selectedItem in listViewTasks.SelectedItems)
+                {
+                    selectedItemText = selectedItem.Text;
+                    loadTriggers(selectedItemText);
+                }
+            }
+        }
+
+        public void loadTriggers(string selectedItemText)
+        {
+            //receives the text of the selected task and populates the listviewtriggers listview
+
+            string triggerStartTime;
+            string triggerStatus;
+
+            //clear out listViewTriggers first
+            listViewTriggers.Items.Clear();
+
+            using (TaskService ts = new TaskService())
+            {
+                foreach (TaskFolder taskFolder in ts.RootFolder.SubFolders)
+                {
+                    if (taskFolder.Name == "StreamDVR")
+                    {
+                        foreach (Microsoft.Win32.TaskScheduler.Task task in taskFolder.Tasks)
+                        {
+                            if (selectedItemText == task.Name)
+                            {
+                                foreach (Trigger trigger in task.Definition.Triggers)
+                                {
+                                    triggerStartTime = trigger.ToString();
+                                    if (trigger.Enabled == true)
+                                    {
+                                        triggerStatus = "Enabled";
+                                    } else
+                                    {
+                                        triggerStatus = "Disabled";
+                                    }
+
+                                    listViewTriggers.Items.Add(new ListViewItem(new string[] { triggerStartTime, triggerStatus }));
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        private void buttonTriggerDelete_Click(object sender, EventArgs e)
+        {
+            string selectedItemText;
+
+            if (listViewTasks.SelectedItems.Count > 0)
+            {
+                foreach (ListViewItem selectedItem in listViewTasks.SelectedItems)
+                {
+                    selectedItemText = selectedItem.Text;
+                    openTaskEditor(selectedItemText, listViewTriggers.SelectedItems[0].Text);
+                    loadTriggers(selectedItemText);
                 }
             }
         }
