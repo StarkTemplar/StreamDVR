@@ -3,6 +3,7 @@ setlocal ENABLEDELAYEDEXPANSION
 REM read settings from ini file
 REM %0 is the script file name (with path), %~0 removes the surrounding " " ("%~0" == %0)
 REM Adding dp returns the drive and path to the file, instead of the file name itself
+REM found ini file reading from http://almanachackers.com/blog/2009/12/31/reading-an-ini-config-file-from-a-batch-file/
 set INIFILE="%~dp0StreamDVR.ini"
 call:getvalue %INIFILE% "livestreamerEXE" "" livestreamerEXE
 call:getvalue %INIFILE% "handbrakeEXE" "" handbrakeEXE
@@ -16,7 +17,9 @@ call:getvalue %INIFILE% "handbrakePreset" "" handbrakePreset
 REM gather cmd line options
 set stream=%~1
 set filenameinput=%~2
-set watch=%~3
+set transcode=%~3
+set watch=%~4
+
 
 REM set livestreamer options
 set livestreamerOptions=-l debug -e --player-continuous-http --retry-streams 120 --retry-open 6
@@ -69,9 +72,11 @@ for /L %%n in (1,1,%retryNumber%) do (
 	set livestreamerOptions=-l debug -e --player-continuous-http
 )
 
-REM transcode videos using handbrake
-for /L %%n in (1,1,3) do (
-	"%handbrakeEXE%" -i "%outputDir%%mydate%_%filenameinput%_%%n.mp4" -o "%handbrakeoutputDir%%mydate%_%filenameinput%_edited_%%n.mp4" --preset=%handbrakePreset%
+REM transcode videos using handbrake if transcode parameter was sent
+IF /I %transcode% EQU Y (
+	for /L %%n in (1,1,3) do (
+		"%handbrakeEXE%" -i "%outputDir%%mydate%_%filenameinput%_%%n.mp4" -o "%handbrakeoutputDir%%mydate%_%filenameinput%_edited_%%n.mp4" --preset=%handbrakePreset%
+	)
 )
 goto:eof
 

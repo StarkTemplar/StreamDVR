@@ -38,14 +38,14 @@ namespace StreamDVR
             //check which tab is selected. if it is the schedule tab load the tasks and triggers
             if (tabControl1.SelectedTab == tabControl1.TabPages["tabPageSchedule"])
             {
-                loadTasks();
+                loadTasks(null);
             }
         }
 
         private void buttonLivestreamer_Click(object sender, EventArgs e)
         {
             OpenFileDialog livestreamerDialog = new OpenFileDialog();
-            livestreamerDialog.Filter = "Executables (*.exe)|*.exe";
+            livestreamerDialog.Filter = "Executables (livestreamer.exe)|livestreamer.exe";
             livestreamerDialog.FilterIndex = 1;
             livestreamerDialog.Multiselect = false;
 
@@ -59,7 +59,7 @@ namespace StreamDVR
         private void buttonHandbrake_Click(object sender, EventArgs e)
         {
             OpenFileDialog handbrakeDialog = new OpenFileDialog();
-            handbrakeDialog.Filter = "Executables (*cli.exe)|*cli.exe";
+            handbrakeDialog.Filter = "Executables (handbrakecli.exe)|handbrakecli.exe";
             handbrakeDialog.FilterIndex = 1;
             handbrakeDialog.Multiselect = false;
 
@@ -90,8 +90,8 @@ namespace StreamDVR
 
             if (logDialog.ShowDialog() == DialogResult.OK)
             {
-                logDir = logDialog.SelectedPath;
-                textBoxLog.Text = logDialog.SelectedPath;
+                logDir = logDialog.SelectedPath + "\\";
+                textBoxLog.Text = logDialog.SelectedPath + "\\";
             }
         }
 
@@ -101,8 +101,8 @@ namespace StreamDVR
 
             if (livestreamerOutputDialog.ShowDialog() == DialogResult.OK)
             {
-                outputDir = livestreamerOutputDialog.SelectedPath;
-                textBoxLivestreamerOutput.Text = livestreamerOutputDialog.SelectedPath;
+                outputDir = livestreamerOutputDialog.SelectedPath + "\\";
+                textBoxLivestreamerOutput.Text = livestreamerOutputDialog.SelectedPath + "\\";
             }
         }
 
@@ -112,21 +112,21 @@ namespace StreamDVR
 
             if (handbrakeOutputDialog.ShowDialog() == DialogResult.OK)
             {
-                handbrakeoutputDir = handbrakeOutputDialog.SelectedPath;
-                textBoxHandbrakeOutput.Text = handbrakeOutputDialog.SelectedPath;
+                handbrakeoutputDir = handbrakeOutputDialog.SelectedPath + "\\";
+                textBoxHandbrakeOutput.Text = handbrakeOutputDialog.SelectedPath + "\\";
             }
         }
 
         private void buttonUp_Click(object sender, EventArgs e)
         {
-            MoveListboxItem(-1);
-            CreateQualityString();
+            moveListboxItem(-1);
+            createQualityString();
         }
 
         private void buttonDown_Click(object sender, EventArgs e)
         {
-            MoveListboxItem(1);
-            CreateQualityString();
+            moveListboxItem(1);
+            createQualityString();
         }
 
         private void radioButtonHandbrake1_CheckedChanged(object sender, EventArgs e)
@@ -176,7 +176,7 @@ namespace StreamDVR
 
         private void buttonConfigDiscard_Click(object sender, EventArgs e)
         {
-            DialogResult dialogResult = MessageBox.Show("Are you sure you want to discard any changes and load settings from the StreamDVR.ini file", "Are you sure?", MessageBoxButtons.YesNo);
+            DialogResult dialogResult = MessageBox.Show("Are you sure you want to discard any changes and load settings from the StreamDVR.ini file?", "Are you sure?", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
             {
                 readIniFile();
@@ -186,9 +186,441 @@ namespace StreamDVR
         private void rootForm_Load(object sender, EventArgs e)
         {
             readIniFile();
+            labelVersion.Text = "StreamDVR v" + Application.ProductVersion;
         }
 
-        public void MoveListboxItem(int direction)
+        private void buttonLoad_Click(object sender, EventArgs e)
+        {
+            loadTasks(null);
+        }
+
+        private void buttonTriggerDelete_Click(object sender, EventArgs e)
+        {
+            string selectedItemText;
+
+            if (listViewTasks.SelectedItems.Count > 0)
+            {
+                foreach (ListViewItem selectedItem in listViewTasks.SelectedItems)
+                {
+                    selectedItemText = selectedItem.Text;
+                    openTriggerEditor(selectedItemText, listViewTriggers.SelectedItems[0].Text);
+                    loadTriggers(selectedItemText);
+                }
+            }
+        }
+
+        private void buttonTaskEdit_Click(object sender, EventArgs e)
+        {
+            //edits selected task
+            string selectedItemText;
+
+            if (listViewTasks.SelectedItems.Count > 0)
+            {
+                foreach (ListViewItem selectedItem in listViewTasks.SelectedItems)
+                {
+                    selectedItemText = selectedItem.Text;
+                    editTask(selectedItem);
+                    loadTasks(selectedItemText);
+                }
+            }
+        }
+
+        private void buttonCreate_Click(object sender, EventArgs e)
+        {
+            // Create a new instance of the Form2 class
+            Form2 settingsForm = new Form2();
+
+            // Show the settings form
+            settingsForm.ShowDialog();
+            if (settingsForm.DialogResult != DialogResult.Cancel)
+            {
+                addTask(settingsForm.form2StreamUrl, settingsForm.form2StreamTag, settingsForm.form2StreamTranscode, settingsForm.form2StreamMedia, false);
+            }
+        }
+
+        private void buttonModify_Click(object sender, EventArgs e)
+        {
+            string selectedItemText;
+
+            if (listViewTasks.SelectedItems.Count > 0)
+            {
+                foreach (ListViewItem selectedItem in listViewTasks.SelectedItems)
+                {
+                    selectedItemText = selectedItem.Text;
+                    openTriggerEditor(selectedItemText, null);
+                    loadTasks(null);
+                    loadTriggers(selectedItemText);
+                }
+            }
+        }
+
+        private void listViewTasks_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //when listViewTasks is selected. load the triggers for that task into listViewTriggers
+
+            string selectedItemText;
+
+            if (listViewTasks.SelectedItems.Count > 0)
+            {
+                foreach (ListViewItem selectedItem in listViewTasks.SelectedItems)
+                {
+                    selectedItemText = selectedItem.Text;
+                    loadTriggers(selectedItemText);
+                }
+            }
+        }
+
+        private void buttonTaskDelete_Click(object sender, EventArgs e)
+        {
+            //deletes selected task
+            string selectedItemText;
+
+            if (listViewTasks.SelectedItems.Count > 0)
+            {
+                foreach (ListViewItem selectedItem in listViewTasks.SelectedItems)
+                {
+                    selectedItemText = selectedItem.Text;
+                    DialogResult dialogResult = MessageBox.Show("Are you sure you want to delete this configured task? This will also delete all scheduled recordings for this task", "Are you sure?", MessageBoxButtons.YesNo);
+                    if (dialogResult == DialogResult.Yes)
+                    {
+                        deleteTask(selectedItemText);
+                        loadTasks(null);
+                    }
+                }
+            }
+        }
+
+        private void richTextBoxWebsite_LinkClicked (object sender, System.Windows.Forms.LinkClickedEventArgs e)
+        {
+            System.Diagnostics.Process.Start(e.LinkText);
+        }
+
+        private void richTextBoxDonations_LinkClicked(object sender, System.Windows.Forms.LinkClickedEventArgs e)
+        {
+            System.Diagnostics.Process.Start(e.LinkText);
+        }
+
+        private void richTextBoxCredits_LinkClicked(object sender, System.Windows.Forms.LinkClickedEventArgs e)
+        {
+            System.Diagnostics.Process.Start(e.LinkText);
+        }
+
+        public void loadTasks(string selectedItemText)
+        {
+            //empty listview first
+            listViewTasks.Items.Clear();
+
+            // Get the service on the local machine
+            using (TaskService ts = new TaskService())
+            {
+                try
+                {
+                    ts.RootFolder.CreateFolder("StreamDVR");
+                }
+                catch
+                {
+                    //folder must already exist
+                }
+                enumFolderTasks(ts.RootFolder);
+            }
+
+            //select item if parameter was passed
+            if (selectedItemText != null)
+            {
+                foreach (ListViewItem item in listViewTasks.Items)
+                {
+                    if (item.Text == selectedItemText)
+                    {
+                        listViewTasks.Select();
+                        item.Focused = true;
+                        item.Selected = true;
+                    }
+                }
+            }
+        }
+
+        public void addTask(string url, string tag, bool transcode, bool media, bool edit)
+        {
+            //variable to check if this task is unique
+            bool taskValid = true;
+
+            //use tag as taskName
+            string taskName = tag;
+
+            //get directory that this application is executing in
+            string currentPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            string batPath = "\"" + currentPath + "\\bat\\genericStream.bat" + "\"";
+
+            //build arguments string
+            string taskArguments = url + " " + tag;
+            if (transcode)
+            {
+                taskArguments += " " + "Y";
+            }
+            else
+            {
+                taskArguments += " " + "N";
+            }
+            if (media)
+            {
+                taskArguments += " " + "Y";
+            }
+            else
+            {
+                taskArguments += " " + "N";
+            }
+
+            //create new task
+            using (TaskService ts = new TaskService())
+            {
+                TaskDefinition taskDefinition = ts.NewTask();
+                taskDefinition.Actions.Add(new ExecAction(batPath, taskArguments, null));
+                taskDefinition.Principal.RunLevel = TaskRunLevel.Highest;
+
+                //check if this taskName already exists in StreamDVR folder
+                TaskFolder myFolder = ts.RootFolder.SubFolders["StreamDVR"];
+                foreach (Microsoft.Win32.TaskScheduler.Task allTasks in myFolder.AllTasks)
+                {
+                    if (allTasks.Name == taskName)
+                    {
+                        taskValid = false;
+                        if (edit == false)
+                        {
+                            //task already exists and edit flag is set to false
+
+                            DialogResult dialogResult = MessageBox.Show("That tag already exists. Tag must be unique", "Error", MessageBoxButtons.OK);
+                            // Create a new instance of the Form2 class
+                            Form2 settingsForm = new Form2(url, tag, transcode, media);
+
+                            // Show the settings form
+                            settingsForm.ShowDialog();
+                            if (settingsForm.DialogResult != DialogResult.Cancel)
+                            {
+                                addTask(settingsForm.form2StreamUrl, settingsForm.form2StreamTag, settingsForm.form2StreamTranscode, settingsForm.form2StreamMedia, false);
+                            }
+                        }
+                        else
+                        {
+                            //task already exists and edit flag is set to true
+                            allTasks.Definition.Actions.Clear();
+                            allTasks.Definition.Actions.Add(new ExecAction(batPath, taskArguments, null));
+                            allTasks.RegisterChanges();
+                        }
+                    }
+                }
+
+                if (taskValid == true)
+                {
+                    //task does not already exist. create
+
+                    myFolder.RegisterTaskDefinition(taskName, taskDefinition);
+                    //open trigger editor for new task
+                    openTriggerEditor(taskName, null);
+                    loadTasks(taskName);
+                }
+            }
+        }
+
+        public void editTask(ListViewItem selectedItem)
+        {
+            //gets data from selectedItem
+            string url = selectedItem.SubItems[1].Text;
+            string tag = selectedItem.SubItems[2].Text;
+            bool transcode;
+            bool media;
+
+            if (selectedItem.SubItems[3].Text == "Y")
+            {
+                transcode = true;
+            }
+            else
+            {
+                transcode = false;
+            }
+            if (selectedItem.SubItems[4].Text == "Y")
+            {
+                media = true;
+            }
+            else
+            {
+                media = false;
+            }
+
+            // Create a new instance of the Form2 class
+            Form2 settingsForm = new Form2(url, tag, transcode, media, true);
+
+            // Show the settings form
+            settingsForm.ShowDialog();
+            if (settingsForm.DialogResult != DialogResult.Cancel)
+            {
+                addTask(settingsForm.form2StreamUrl, settingsForm.form2StreamTag, settingsForm.form2StreamTranscode, settingsForm.form2StreamMedia, true);
+            }
+        }
+
+        public void deleteTask(string selectedItemText)
+        {
+            //receives seleteditem and deletes it
+
+            //clear out listViewTriggers first
+            listViewTriggers.Items.Clear();
+
+            using (TaskService ts = new TaskService())
+            {
+                foreach (TaskFolder taskFolder in ts.RootFolder.SubFolders)
+                {
+                    if (taskFolder.Name == "StreamDVR")
+                    {
+                        foreach (Microsoft.Win32.TaskScheduler.Task task in taskFolder.Tasks)
+                        {
+                            if (selectedItemText == task.Name)
+                            {
+                                taskFolder.DeleteTask(task.Name);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        public void enumFolderTasks(TaskFolder fld)
+        {
+            string nextruntime;
+            string lastruntime;
+            string streamUrl;
+            string streamId;
+            string streamView;
+            string streamEncode;
+
+            if (fld.Name == "StreamDVR")
+            {
+                foreach (Microsoft.Win32.TaskScheduler.Task task in fld.Tasks)
+                {
+                    nextruntime = Convert.ToString(task.NextRunTime);
+                    lastruntime = Convert.ToString(task.LastRunTime);
+                    string stream = task.Definition.Actions.ToString();
+
+                    char[] delimiterChars = { ' ' };
+                    try
+                    {
+                        string[] words = stream.Split(delimiterChars);
+                        streamUrl = words[1];
+                        streamId = words[2];
+                        streamView = words[3];
+                        streamEncode = words[3];
+                    }
+                    catch
+                    {
+                        //task must not have parameters we are looking for
+                        streamUrl = "";
+                        streamId = "";
+                        streamView = "";
+                        streamEncode = "";
+                    }
+                    //check to see if next run time or last run time are null. this is returned as 1/1/0001 12:00:00 AM
+                    if (nextruntime == "1/1/0001 12:00:00 AM")
+                    {
+                        nextruntime = "";
+                    }
+                    if (lastruntime == "1/1/0001 12:00:00 AM")
+                    {
+                        lastruntime = "";
+                    }
+                    listViewTasks.Items.Add(new ListViewItem(new string[] { task.Name, streamUrl, streamId, streamView, streamEncode, nextruntime, lastruntime }));
+                }
+            }
+            foreach (TaskFolder sfld in fld.SubFolders)
+            { 
+                enumFolderTasks(sfld);
+            }
+        }
+
+        public void openTriggerEditor(string selectedItemText, string triggerToDelete)
+        {
+            //receives the text of the selected item and opens the task editor dialog
+            using (TaskService ts = new TaskService())
+            {
+                foreach (TaskFolder taskFolder in ts.RootFolder.SubFolders)
+                {
+                    if (taskFolder.Name == "StreamDVR")
+                    {
+                        foreach (Microsoft.Win32.TaskScheduler.Task task in taskFolder.Tasks)
+                        {
+                            if (selectedItemText == task.Name)
+                            {
+                                if (triggerToDelete != null)
+                                {
+                                    int triggerIndex = 0;
+
+                                    foreach (Trigger trigger in task.Definition.Triggers)
+                                    {
+                                        if (trigger.ToString() == triggerToDelete)
+                                        {
+                                            DialogResult dialogResult = MessageBox.Show("Are you sure you want to delete this scheduled recording?", "Are you sure?", MessageBoxButtons.YesNo);
+                                            if (dialogResult == DialogResult.Yes)
+                                            {
+                                                task.Definition.Triggers.RemoveAt(triggerIndex);
+                                                task.RegisterChanges();
+                                            }
+                                        }
+                                        triggerIndex++;
+                                    }
+                                } else
+                                {
+                                    TriggerEditDialog triggerForm = new TriggerEditDialog();
+                                    if (triggerForm.ShowDialog() == DialogResult.OK)
+                                    {
+                                        task.Definition.Triggers.Add(triggerForm.Trigger);
+                                        task.RegisterChanges();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        public void loadTriggers(string selectedItemText)
+        {
+            //receives the text of the selected task and populates the listviewtriggers listview
+
+            string triggerStartTime;
+            string triggerStatus;
+
+            //clear out listViewTriggers first
+            listViewTriggers.Items.Clear();
+
+            using (TaskService ts = new TaskService())
+            {
+                foreach (TaskFolder taskFolder in ts.RootFolder.SubFolders)
+                {
+                    if (taskFolder.Name == "StreamDVR")
+                    {
+                        foreach (Microsoft.Win32.TaskScheduler.Task task in taskFolder.Tasks)
+                        {
+                            if (selectedItemText == task.Name)
+                            {
+                                foreach (Trigger trigger in task.Definition.Triggers)
+                                {
+                                    triggerStartTime = trigger.ToString();
+                                    if (trigger.Enabled == true)
+                                    {
+                                        triggerStatus = "Enabled";
+                                    } else
+                                    {
+                                        triggerStatus = "Disabled";
+                                    }
+
+                                    listViewTriggers.Items.Add(new ListViewItem(new string[] { triggerStartTime, triggerStatus }));
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        public void moveListboxItem(int direction)
         {
             // Moves the item in a list box 1 index higher or lower
 
@@ -213,7 +645,7 @@ namespace StreamDVR
             listBoxLivestreamerQuality.SetSelected(newIndex, true);
         }
 
-        public void CreateQualityString()
+        public void createQualityString()
         {
             //Creates the quality string and saves the value to the global variable quality
 
@@ -226,7 +658,7 @@ namespace StreamDVR
 
         public void readIniFile()
         {
-            var MyIni = new IniFile();
+            var MyIni = new IniFile("bat\\StreamDVR.ini");
 
             //read ini file and assign to global variables
             livestreamerEXE = MyIni.Read("livestreamerEXE");
@@ -284,7 +716,7 @@ namespace StreamDVR
 
         public void writeIniFile()
         {
-            var MyIni = new IniFile();
+            var MyIni = new IniFile("bat\\StreamDVR.ini");
 
             //write global variables to ini file
             MyIni.Write("livestreamerEXE", "\"" + livestreamerEXE + "\"");
@@ -295,234 +727,6 @@ namespace StreamDVR
             MyIni.Write("handbrakeoutputDir", handbrakeoutputDir);
             MyIni.Write("quality", "\"" + quality + "\"");
             MyIni.Write("handbrakePreset", "\"" + handbrakePreset + "\"");
-        }
-
-        private void buttonLoad_Click(object sender, EventArgs e)
-        {
-            loadTasks();
-        }
-
-        public void loadTasks()
-        {
-            //empty listview first
-            listViewTasks.Items.Clear();
-
-            // Get the service on the local machine
-            using (TaskService ts = new TaskService())
-            {
-                try
-                {
-                    ts.RootFolder.CreateFolder("StreamDVR");
-                }
-                catch
-                {
-                    //folder must already exist
-                }
-                EnumFolderTasks(ts.RootFolder);
-            }
-        }
-
-        public void EnumFolderTasks(TaskFolder fld)
-        {
-            string nextruntime;
-            string lastruntime;
-            string streamUrl;
-            string streamId;
-            string streamView;
-            string streamEncode;
-
-            if (fld.Name == "StreamDVR")
-            {
-                foreach (Microsoft.Win32.TaskScheduler.Task task in fld.Tasks)
-                {
-                    nextruntime = Convert.ToString(task.NextRunTime);
-                    lastruntime = Convert.ToString(task.LastRunTime);
-                    string stream = task.Definition.Actions.ToString();
-
-                    char[] delimiterChars = { ' ' };
-                    try
-                    {
-                        string[] words = stream.Split(delimiterChars);
-                        streamUrl = words[1];
-                        streamId = words[2];
-                        streamView = words[3];
-                        streamEncode = words[3];
-                    }
-                    catch
-                    {
-                        //task must not have parameters we are looking for
-                        streamUrl = "";
-                        streamId = "";
-                        streamView = "";
-                        streamEncode = "";
-                    }
-                    //check to see if next run time or last run time are null. this is returned as 1/1/0001 12:00:00 AM
-                    if (nextruntime == "1/1/0001 12:00:00 AM")
-                    {
-                        nextruntime = "";
-                    }
-                    if (lastruntime == "1/1/0001 12:00:00 AM")
-                    {
-                        lastruntime = "";
-                    }
-                    listViewTasks.Items.Add(new ListViewItem(new string[] { task.Name, streamUrl, streamId, streamView, streamEncode, nextruntime, lastruntime }));
-                }
-            }
-            foreach (TaskFolder sfld in fld.SubFolders)
-            { 
-                EnumFolderTasks(sfld);
-            }
-        }
-
-        private void buttonCreate_Click(object sender, EventArgs e)
-        {
-              // Create a new instance of the Form2 class
-              Form2 settingsForm = new Form2();
-
-              // Show the settings form
-              settingsForm.ShowDialog();
-              if (settingsForm.DialogResult != DialogResult.Cancel)
-              {
-                addTask(settingsForm.form2StreamUrl, settingsForm.form2StreamTag, settingsForm.form2StreamTranscode, settingsForm.form2StreamMedia);
-              }
-        }
-
-        public void addTask(string url, string tag, bool transcode, bool media)
-        {
-            //var test = 0;
-        }
-
-        private void buttonModify_Click(object sender, EventArgs e)
-        {
-            string selectedItemText;
-
-            if (listViewTasks.SelectedItems.Count > 0)
-            {
-                foreach (ListViewItem selectedItem in listViewTasks.SelectedItems)
-                {
-                    selectedItemText = selectedItem.Text;
-                    openTaskEditor(selectedItemText, null);
-                    loadTasks();
-                    loadTriggers(selectedItemText);
-                }
-            }
-        }
-
-        public void openTaskEditor(string selectedItemText, string triggerToDelete)
-        {
-            //receives the text of the selected item and opens the task editor dialog
-            using (TaskService ts = new TaskService())
-            {
-                foreach (TaskFolder taskFolder in ts.RootFolder.SubFolders)
-                {
-                    if (taskFolder.Name == "StreamDVR")
-                    {
-                        foreach (Microsoft.Win32.TaskScheduler.Task task in taskFolder.Tasks)
-                        {
-                            if (selectedItemText == task.Name)
-                            {
-                                if (triggerToDelete != null)
-                                {
-                                    int triggerIndex = 0;
-
-                                    foreach (Trigger trigger in task.Definition.Triggers)
-                                    {
-                                        if (trigger.ToString() == triggerToDelete)
-                                        {
-                                            DialogResult dialogResult = MessageBox.Show("Are you sure you want to delete this scheduled recording?", "Are you sure?", MessageBoxButtons.YesNo);
-                                            if (dialogResult == DialogResult.Yes)
-                                            {
-                                                task.Definition.Triggers.RemoveAt(triggerIndex);
-                                                task.RegisterChanges();
-                                            }
-                                        }
-                                        triggerIndex++;
-                                    }
-                                } else
-                                {
-                                    TriggerEditDialog triggerForm = new TriggerEditDialog();
-                                    if (triggerForm.ShowDialog() == DialogResult.OK)
-                                    {
-                                        task.Definition.Triggers.Add(triggerForm.Trigger);
-                                        task.RegisterChanges();
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        private void listViewTasks_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            //when listViewTasks is selected. load the triggers for that task into listViewTriggers
-
-            string selectedItemText;
-
-            if (listViewTasks.SelectedItems.Count > 0)
-            {
-                foreach (ListViewItem selectedItem in listViewTasks.SelectedItems)
-                {
-                    selectedItemText = selectedItem.Text;
-                    loadTriggers(selectedItemText);
-                }
-            }
-        }
-
-        public void loadTriggers(string selectedItemText)
-        {
-            //receives the text of the selected task and populates the listviewtriggers listview
-
-            string triggerStartTime;
-            string triggerStatus;
-
-            //clear out listViewTriggers first
-            listViewTriggers.Items.Clear();
-
-            using (TaskService ts = new TaskService())
-            {
-                foreach (TaskFolder taskFolder in ts.RootFolder.SubFolders)
-                {
-                    if (taskFolder.Name == "StreamDVR")
-                    {
-                        foreach (Microsoft.Win32.TaskScheduler.Task task in taskFolder.Tasks)
-                        {
-                            if (selectedItemText == task.Name)
-                            {
-                                foreach (Trigger trigger in task.Definition.Triggers)
-                                {
-                                    triggerStartTime = trigger.ToString();
-                                    if (trigger.Enabled == true)
-                                    {
-                                        triggerStatus = "Enabled";
-                                    } else
-                                    {
-                                        triggerStatus = "Disabled";
-                                    }
-
-                                    listViewTriggers.Items.Add(new ListViewItem(new string[] { triggerStartTime, triggerStatus }));
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        private void buttonTriggerDelete_Click(object sender, EventArgs e)
-        {
-            string selectedItemText;
-
-            if (listViewTasks.SelectedItems.Count > 0)
-            {
-                foreach (ListViewItem selectedItem in listViewTasks.SelectedItems)
-                {
-                    selectedItemText = selectedItem.Text;
-                    openTaskEditor(selectedItemText, listViewTriggers.SelectedItems[0].Text);
-                    loadTriggers(selectedItemText);
-                }
-            }
         }
     }
 

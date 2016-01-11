@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form2));
             this.labelStreamId = new System.Windows.Forms.Label();
             this.textBoxStreamTag = new System.Windows.Forms.TextBox();
             this.labelStreamUrl = new System.Windows.Forms.Label();
@@ -207,8 +208,9 @@
             this.Controls.Add(this.labelStreamUrl);
             this.Controls.Add(this.textBoxStreamUrl);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form2";
-            this.Text = "Form2";
+            this.Text = "Task Editor";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);

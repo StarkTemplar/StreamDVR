@@ -23,6 +23,56 @@ namespace StreamDVR
             InitializeComponent();
         }
 
+        public Form2(string url, string tag, bool transcode, bool media)
+        {
+            InitializeComponent();
+            textBoxStreamUrl.Text = url;
+            textBoxStreamTag.Text = tag;
+            if (transcode == true)
+            {
+                radioButtonTranscode1.Checked = true;
+            }
+            else
+            {
+                radioButtonTranscode1.Checked = false;
+            }
+            if (media == true)
+            {
+                radioButtonMediaplayer1.Checked = true;
+            }
+            else
+            {
+                radioButtonMediaplayer1.Checked = false;
+            }
+        }
+
+        public Form2(string url, string tag, bool transcode, bool media, bool locked)
+        {
+            InitializeComponent();
+            textBoxStreamUrl.Text = url;
+            textBoxStreamTag.Text = tag;
+            if (transcode == true)
+            {
+                radioButtonTranscode1.Checked = true;
+            }
+            else
+            {
+                radioButtonTranscode1.Checked = false;
+            }
+            if (media == true)
+            {
+                radioButtonMediaplayer1.Checked = true;
+            }
+            else
+            {
+                radioButtonMediaplayer1.Checked = false;
+            }
+            if (locked == true)
+            {
+                textBoxStreamTag.ReadOnly = true;
+            }
+        }
+
         public string form2StreamUrl
         {
             get { return _form2StreamUrl; }

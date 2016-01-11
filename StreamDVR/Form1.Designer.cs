@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(rootForm));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPageConfig = new System.Windows.Forms.TabPage();
             this.labelRequired = new System.Windows.Forms.Label();
@@ -78,11 +79,24 @@
             this.triggerDate = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.triggerStatus = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.buttonAddTask = new System.Windows.Forms.Button();
-            this.buttonTriggerDelete = new System.Windows.Forms.Button();
             this.buttonTaskEdit = new System.Windows.Forms.Button();
             this.buttonTaskDelete = new System.Windows.Forms.Button();
+            this.buttonTriggerDelete = new System.Windows.Forms.Button();
             this.tabPageAbout = new System.Windows.Forms.TabPage();
+            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.labelVersion = new System.Windows.Forms.Label();
+            this.labelAuthor = new System.Windows.Forms.Label();
+            this.labelWebsite = new System.Windows.Forms.Label();
+            this.labelDonations = new System.Windows.Forms.Label();
+            this.labelCredits = new System.Windows.Forms.Label();
+            this.labelLicense = new System.Windows.Forms.Label();
+            this.labelAuthor2 = new System.Windows.Forms.Label();
+            this.richTextBoxWebsite = new System.Windows.Forms.RichTextBox();
+            this.richTextBoxDonations = new System.Windows.Forms.RichTextBox();
+            this.richTextBoxCredits = new System.Windows.Forms.RichTextBox();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.richTextBoxLicense = new System.Windows.Forms.RichTextBox();
             this.tabControl1.SuspendLayout();
             this.tabPageConfig.SuspendLayout();
             this.groupBoxQuality.SuspendLayout();
@@ -90,6 +104,9 @@
             this.groupBoxExe.SuspendLayout();
             this.tabPageSchedule.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
+            this.tabPageAbout.SuspendLayout();
+            this.tableLayoutPanel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -516,10 +533,10 @@
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.ColumnCount = 4;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 70F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 90F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 90F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 90F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel1.Controls.Add(this.listViewTasks, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.buttonAddTrigger, 0, 3);
             this.tableLayoutPanel1.Controls.Add(this.listViewTriggers, 0, 2);
@@ -535,7 +552,6 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 40F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(915, 639);
             this.tableLayoutPanel1.TabIndex = 6;
             // 
@@ -553,7 +569,9 @@
             this.NextRunTime,
             this.LastRunTime});
             this.tableLayoutPanel1.SetColumnSpan(this.listViewTasks, 4);
+            this.listViewTasks.FullRowSelect = true;
             this.listViewTasks.GridLines = true;
+            this.listViewTasks.HideSelection = false;
             this.listViewTasks.Location = new System.Drawing.Point(3, 3);
             this.listViewTasks.MultiSelect = false;
             this.listViewTasks.Name = "listViewTasks";
@@ -645,9 +663,29 @@
             this.buttonAddTask.UseVisualStyleBackColor = true;
             this.buttonAddTask.Click += new System.EventHandler(this.buttonCreate_Click);
             // 
+            // buttonTaskEdit
+            // 
+            this.buttonTaskEdit.Location = new System.Drawing.Point(93, 258);
+            this.buttonTaskEdit.Name = "buttonTaskEdit";
+            this.buttonTaskEdit.Size = new System.Drawing.Size(75, 23);
+            this.buttonTaskEdit.TabIndex = 8;
+            this.buttonTaskEdit.Text = "Edit";
+            this.buttonTaskEdit.UseVisualStyleBackColor = true;
+            this.buttonTaskEdit.Click += new System.EventHandler(this.buttonTaskEdit_Click);
+            // 
+            // buttonTaskDelete
+            // 
+            this.buttonTaskDelete.Location = new System.Drawing.Point(183, 258);
+            this.buttonTaskDelete.Name = "buttonTaskDelete";
+            this.buttonTaskDelete.Size = new System.Drawing.Size(75, 23);
+            this.buttonTaskDelete.TabIndex = 9;
+            this.buttonTaskDelete.Text = "Delete";
+            this.buttonTaskDelete.UseVisualStyleBackColor = true;
+            this.buttonTaskDelete.Click += new System.EventHandler(this.buttonTaskDelete_Click);
+            // 
             // buttonTriggerDelete
             // 
-            this.buttonTriggerDelete.Location = new System.Drawing.Point(94, 576);
+            this.buttonTriggerDelete.Location = new System.Drawing.Point(93, 576);
             this.buttonTriggerDelete.Name = "buttonTriggerDelete";
             this.buttonTriggerDelete.Size = new System.Drawing.Size(75, 23);
             this.buttonTriggerDelete.TabIndex = 7;
@@ -655,26 +693,9 @@
             this.buttonTriggerDelete.UseVisualStyleBackColor = true;
             this.buttonTriggerDelete.Click += new System.EventHandler(this.buttonTriggerDelete_Click);
             // 
-            // buttonTaskEdit
-            // 
-            this.buttonTaskEdit.Location = new System.Drawing.Point(94, 258);
-            this.buttonTaskEdit.Name = "buttonTaskEdit";
-            this.buttonTaskEdit.Size = new System.Drawing.Size(75, 23);
-            this.buttonTaskEdit.TabIndex = 8;
-            this.buttonTaskEdit.Text = "Edit";
-            this.buttonTaskEdit.UseVisualStyleBackColor = true;
-            // 
-            // buttonTaskDelete
-            // 
-            this.buttonTaskDelete.Location = new System.Drawing.Point(185, 258);
-            this.buttonTaskDelete.Name = "buttonTaskDelete";
-            this.buttonTaskDelete.Size = new System.Drawing.Size(75, 23);
-            this.buttonTaskDelete.TabIndex = 9;
-            this.buttonTaskDelete.Text = "Delete";
-            this.buttonTaskDelete.UseVisualStyleBackColor = true;
-            // 
             // tabPageAbout
             // 
+            this.tabPageAbout.Controls.Add(this.tableLayoutPanel2);
             this.tabPageAbout.Location = new System.Drawing.Point(4, 24);
             this.tabPageAbout.Name = "tabPageAbout";
             this.tabPageAbout.Size = new System.Drawing.Size(921, 638);
@@ -682,9 +703,194 @@
             this.tabPageAbout.Text = "  About  ";
             this.tabPageAbout.UseVisualStyleBackColor = true;
             // 
+            // tableLayoutPanel2
+            // 
+            this.tableLayoutPanel2.ColumnCount = 3;
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 180F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 450F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel2.Controls.Add(this.pictureBox1, 0, 0);
+            this.tableLayoutPanel2.Controls.Add(this.labelVersion, 1, 0);
+            this.tableLayoutPanel2.Controls.Add(this.labelAuthor, 0, 1);
+            this.tableLayoutPanel2.Controls.Add(this.labelWebsite, 0, 2);
+            this.tableLayoutPanel2.Controls.Add(this.labelDonations, 0, 3);
+            this.tableLayoutPanel2.Controls.Add(this.labelCredits, 0, 4);
+            this.tableLayoutPanel2.Controls.Add(this.labelLicense, 0, 5);
+            this.tableLayoutPanel2.Controls.Add(this.labelAuthor2, 1, 1);
+            this.tableLayoutPanel2.Controls.Add(this.richTextBoxWebsite, 1, 2);
+            this.tableLayoutPanel2.Controls.Add(this.richTextBoxDonations, 1, 3);
+            this.tableLayoutPanel2.Controls.Add(this.richTextBoxCredits, 1, 4);
+            this.tableLayoutPanel2.Controls.Add(this.richTextBoxLicense, 1, 5);
+            this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Top;
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+            this.tableLayoutPanel2.RowCount = 8;
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 150F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 100F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 100F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 80F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(921, 638);
+            this.tableLayoutPanel2.TabIndex = 0;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
+            this.pictureBox1.InitialImage = null;
+            this.pictureBox1.Location = new System.Drawing.Point(25, 15);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(25, 15, 25, 25);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(130, 110);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 0;
+            this.pictureBox1.TabStop = false;
+            // 
+            // labelVersion
+            // 
+            this.labelVersion.AutoSize = true;
+            this.labelVersion.Dock = System.Windows.Forms.DockStyle.Top;
+            this.labelVersion.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelVersion.Location = new System.Drawing.Point(185, 0);
+            this.labelVersion.Margin = new System.Windows.Forms.Padding(5, 0, 3, 0);
+            this.labelVersion.Name = "labelVersion";
+            this.labelVersion.Padding = new System.Windows.Forms.Padding(0, 20, 0, 0);
+            this.labelVersion.Size = new System.Drawing.Size(442, 40);
+            this.labelVersion.TabIndex = 1;
+            this.labelVersion.Text = "StreamDVR v";
+            // 
+            // labelAuthor
+            // 
+            this.labelAuthor.AutoSize = true;
+            this.labelAuthor.Dock = System.Windows.Forms.DockStyle.Top;
+            this.labelAuthor.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelAuthor.Location = new System.Drawing.Point(15, 153);
+            this.labelAuthor.Margin = new System.Windows.Forms.Padding(15, 3, 3, 3);
+            this.labelAuthor.Name = "labelAuthor";
+            this.labelAuthor.Size = new System.Drawing.Size(162, 17);
+            this.labelAuthor.TabIndex = 2;
+            this.labelAuthor.Text = "Author:";
+            // 
+            // labelWebsite
+            // 
+            this.labelWebsite.AutoSize = true;
+            this.labelWebsite.Dock = System.Windows.Forms.DockStyle.Top;
+            this.labelWebsite.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelWebsite.Location = new System.Drawing.Point(15, 203);
+            this.labelWebsite.Margin = new System.Windows.Forms.Padding(15, 3, 3, 0);
+            this.labelWebsite.Name = "labelWebsite";
+            this.labelWebsite.Size = new System.Drawing.Size(162, 17);
+            this.labelWebsite.TabIndex = 4;
+            this.labelWebsite.Text = "Website:";
+            // 
+            // labelDonations
+            // 
+            this.labelDonations.AutoSize = true;
+            this.labelDonations.Dock = System.Windows.Forms.DockStyle.Top;
+            this.labelDonations.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelDonations.Location = new System.Drawing.Point(15, 253);
+            this.labelDonations.Margin = new System.Windows.Forms.Padding(15, 3, 3, 0);
+            this.labelDonations.Name = "labelDonations";
+            this.labelDonations.Size = new System.Drawing.Size(162, 17);
+            this.labelDonations.TabIndex = 5;
+            this.labelDonations.Text = "Donations:";
+            // 
+            // labelCredits
+            // 
+            this.labelCredits.AutoSize = true;
+            this.labelCredits.Dock = System.Windows.Forms.DockStyle.Top;
+            this.labelCredits.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelCredits.Location = new System.Drawing.Point(15, 303);
+            this.labelCredits.Margin = new System.Windows.Forms.Padding(15, 3, 3, 0);
+            this.labelCredits.Name = "labelCredits";
+            this.labelCredits.Size = new System.Drawing.Size(162, 17);
+            this.labelCredits.TabIndex = 6;
+            this.labelCredits.Text = "Credits:";
+            // 
+            // labelLicense
+            // 
+            this.labelLicense.AutoSize = true;
+            this.labelLicense.Dock = System.Windows.Forms.DockStyle.Top;
+            this.labelLicense.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelLicense.Location = new System.Drawing.Point(15, 403);
+            this.labelLicense.Margin = new System.Windows.Forms.Padding(15, 3, 3, 0);
+            this.labelLicense.Name = "labelLicense";
+            this.labelLicense.Size = new System.Drawing.Size(162, 17);
+            this.labelLicense.TabIndex = 7;
+            this.labelLicense.Text = "License:";
+            // 
+            // labelAuthor2
+            // 
+            this.labelAuthor2.AutoSize = true;
+            this.labelAuthor2.Dock = System.Windows.Forms.DockStyle.Top;
+            this.labelAuthor2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelAuthor2.Location = new System.Drawing.Point(185, 153);
+            this.labelAuthor2.Margin = new System.Windows.Forms.Padding(5, 3, 3, 3);
+            this.labelAuthor2.Name = "labelAuthor2";
+            this.labelAuthor2.Size = new System.Drawing.Size(442, 17);
+            this.labelAuthor2.TabIndex = 8;
+            this.labelAuthor2.Text = "StarkTemplar";
+            // 
+            // richTextBoxWebsite
+            // 
+            this.richTextBoxWebsite.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.richTextBoxWebsite.Dock = System.Windows.Forms.DockStyle.Top;
+            this.richTextBoxWebsite.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.richTextBoxWebsite.Location = new System.Drawing.Point(185, 203);
+            this.richTextBoxWebsite.Margin = new System.Windows.Forms.Padding(5, 3, 3, 3);
+            this.richTextBoxWebsite.Name = "richTextBoxWebsite";
+            this.richTextBoxWebsite.Size = new System.Drawing.Size(442, 44);
+            this.richTextBoxWebsite.TabIndex = 9;
+            this.richTextBoxWebsite.Text = "https://github.com/StarkTemplar/StreamDVR";
+            this.richTextBoxWebsite.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.richTextBoxWebsite_LinkClicked);
+            // 
+            // richTextBoxDonations
+            // 
+            this.richTextBoxDonations.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.richTextBoxDonations.Dock = System.Windows.Forms.DockStyle.Top;
+            this.richTextBoxDonations.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.richTextBoxDonations.Location = new System.Drawing.Point(185, 253);
+            this.richTextBoxDonations.Margin = new System.Windows.Forms.Padding(5, 3, 3, 3);
+            this.richTextBoxDonations.Name = "richTextBoxDonations";
+            this.richTextBoxDonations.Size = new System.Drawing.Size(442, 44);
+            this.richTextBoxDonations.TabIndex = 10;
+            this.richTextBoxDonations.Text = "https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=streamdvr%40gmail%2" +
+    "ecom&lc=US&item_name=StreamDVR&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donat" +
+    "eCC_LG%2egif%3aNonHosted";
+            this.richTextBoxDonations.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.richTextBoxDonations_LinkClicked);
+            // 
+            // richTextBoxCredits
+            // 
+            this.richTextBoxCredits.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.richTextBoxCredits.Dock = System.Windows.Forms.DockStyle.Top;
+            this.richTextBoxCredits.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.richTextBoxCredits.Location = new System.Drawing.Point(183, 303);
+            this.richTextBoxCredits.Name = "richTextBoxCredits";
+            this.richTextBoxCredits.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
+            this.richTextBoxCredits.Size = new System.Drawing.Size(444, 94);
+            this.richTextBoxCredits.TabIndex = 11;
+            this.richTextBoxCredits.Text = resources.GetString("richTextBoxCredits.Text");
+            this.richTextBoxCredits.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.richTextBoxCredits_LinkClicked);
+            // 
             // openFileDialog1
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
+            // 
+            // richTextBoxLicense
+            // 
+            this.richTextBoxLicense.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.richTextBoxLicense.Dock = System.Windows.Forms.DockStyle.Top;
+            this.richTextBoxLicense.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.richTextBoxLicense.Location = new System.Drawing.Point(185, 405);
+            this.richTextBoxLicense.Margin = new System.Windows.Forms.Padding(5, 5, 3, 3);
+            this.richTextBoxLicense.Name = "richTextBoxLicense";
+            this.tableLayoutPanel2.SetRowSpan(this.richTextBoxLicense, 2);
+            this.richTextBoxLicense.Size = new System.Drawing.Size(442, 172);
+            this.richTextBoxLicense.TabIndex = 12;
+            this.richTextBoxLicense.Text = resources.GetString("richTextBoxLicense.Text");
             // 
             // rootForm
             // 
@@ -694,6 +900,7 @@
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(929, 666);
             this.Controls.Add(this.tabControl1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "rootForm";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.Text = "StreamDVR";
@@ -709,6 +916,10 @@
             this.groupBoxExe.PerformLayout();
             this.tabPageSchedule.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
+            this.tabPageAbout.ResumeLayout(false);
+            this.tableLayoutPanel2.ResumeLayout(false);
+            this.tableLayoutPanel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -770,6 +981,19 @@
         private System.Windows.Forms.Button buttonTriggerDelete;
         private System.Windows.Forms.Button buttonTaskEdit;
         private System.Windows.Forms.Button buttonTaskDelete;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Label labelVersion;
+        private System.Windows.Forms.Label labelAuthor;
+        private System.Windows.Forms.Label labelWebsite;
+        private System.Windows.Forms.Label labelDonations;
+        private System.Windows.Forms.Label labelCredits;
+        private System.Windows.Forms.Label labelLicense;
+        private System.Windows.Forms.Label labelAuthor2;
+        private System.Windows.Forms.RichTextBox richTextBoxWebsite;
+        private System.Windows.Forms.RichTextBox richTextBoxDonations;
+        private System.Windows.Forms.RichTextBox richTextBoxCredits;
+        private System.Windows.Forms.RichTextBox richTextBoxLicense;
     }
 }
 
