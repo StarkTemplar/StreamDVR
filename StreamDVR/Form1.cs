@@ -38,6 +38,21 @@ namespace StreamDVR
             //check which tab is selected. if it is the schedule tab load the tasks and triggers
             if (tabControl1.SelectedTab == tabControl1.TabPages["tabPageSchedule"])
             {
+                if (buttonConfigSave.BackColor == Color.Red)
+                {
+                    DialogResult dialogResult = MessageBox.Show("Would you like to save your changes?", "Unsaved changes", MessageBoxButtons.YesNo);
+                    if (dialogResult == DialogResult.Yes)
+                    {
+                        //save ini file and return save button to normal color
+                        writeIniFile();
+                        changeSaveButtonColor(false);
+                    } else
+                    {
+                        //read ini file and return save button to normal color
+                        readIniFile();
+                        changeSaveButtonColor(false);
+                    }
+                }
                 loadTasks(null);
             }
         }
@@ -53,6 +68,7 @@ namespace StreamDVR
             {
                 livestreamerEXE = livestreamerDialog.FileName;
                 textBoxLivestreamer.Text = livestreamerDialog.FileName;
+                changeSaveButtonColor(true);
             }        
         }
 
@@ -67,6 +83,7 @@ namespace StreamDVR
             {
                 handbrakeEXE = handbrakeDialog.FileName;
                 textBoxHandbrake.Text = handbrakeDialog.FileName;
+                changeSaveButtonColor(true);
             }
         }
 
@@ -81,6 +98,7 @@ namespace StreamDVR
             {
                 mediaplayerEXE = mediaplayerDialog.FileName;
                 textBoxMediaplayer.Text = mediaplayerDialog.FileName;
+                changeSaveButtonColor(true);
             }
         }
 
@@ -92,6 +110,7 @@ namespace StreamDVR
             {
                 logDir = logDialog.SelectedPath + "\\";
                 textBoxLog.Text = logDialog.SelectedPath + "\\";
+                changeSaveButtonColor(true);
             }
         }
 
@@ -103,6 +122,7 @@ namespace StreamDVR
             {
                 outputDir = livestreamerOutputDialog.SelectedPath + "\\";
                 textBoxLivestreamerOutput.Text = livestreamerOutputDialog.SelectedPath + "\\";
+                changeSaveButtonColor(true);
             }
         }
 
@@ -114,6 +134,7 @@ namespace StreamDVR
             {
                 handbrakeoutputDir = handbrakeOutputDialog.SelectedPath + "\\";
                 textBoxHandbrakeOutput.Text = handbrakeOutputDialog.SelectedPath + "\\";
+                changeSaveButtonColor(true);
             }
         }
 
@@ -121,12 +142,14 @@ namespace StreamDVR
         {
             moveListboxItem(-1);
             createQualityString();
+            changeSaveButtonColor(true);
         }
 
         private void buttonDown_Click(object sender, EventArgs e)
         {
             moveListboxItem(1);
             createQualityString();
+            changeSaveButtonColor(true);
         }
 
         private void radioButtonHandbrake1_CheckedChanged(object sender, EventArgs e)
@@ -136,6 +159,10 @@ namespace StreamDVR
             if (radioButtonHandbrake1.Checked == true)
             {
                 handbrakePreset = radioButtonHandbrake1.Text;
+                if (radioButtonHandbrake1.Focused == true)
+                {
+                    changeSaveButtonColor(true);
+                }
             }
         }
 
@@ -146,6 +173,10 @@ namespace StreamDVR
             if (radioButtonHandbrake2.Checked == true)
             {
                 handbrakePreset = radioButtonHandbrake2.Text;
+                if (radioButtonHandbrake2.Focused == true)
+                {
+                    changeSaveButtonColor(true);
+                }
             }
         }
 
@@ -156,6 +187,10 @@ namespace StreamDVR
             if (radioButtonHandbrake3.Checked == true)
             {
                 handbrakePreset = textBoxHandbrakePreset.Text;
+                if (radioButtonHandbrake3.Focused == true)
+                {
+                    changeSaveButtonColor(true);
+                }
             }
         }
 
@@ -172,6 +207,7 @@ namespace StreamDVR
         private void buttonConfigSave_Click(object sender, EventArgs e)
         {
             writeIniFile();
+            changeSaveButtonColor(false);
         }
 
         private void buttonConfigDiscard_Click(object sender, EventArgs e)
@@ -180,6 +216,7 @@ namespace StreamDVR
             if (dialogResult == DialogResult.Yes)
             {
                 readIniFile();
+                changeSaveButtonColor(false);
             }
         }
 
@@ -248,8 +285,8 @@ namespace StreamDVR
                 {
                     selectedItemText = selectedItem.Text;
                     openTriggerEditor(selectedItemText, null);
-                    loadTasks(null);
-                    loadTriggers(selectedItemText);
+                    loadTasks(selectedItemText);
+                    //triggers will load because loadTasks will select the task which loads the triggers
                 }
             }
         }
@@ -387,7 +424,6 @@ namespace StreamDVR
                         if (edit == false)
                         {
                             //task already exists and edit flag is set to false
-
                             DialogResult dialogResult = MessageBox.Show("That tag already exists. Tag must be unique", "Error", MessageBoxButtons.OK);
                             // Create a new instance of the Form2 class
                             Form2 settingsForm = new Form2(url, tag, transcode, media);
@@ -506,7 +542,7 @@ namespace StreamDVR
                         streamUrl = words[1];
                         streamId = words[2];
                         streamView = words[3];
-                        streamEncode = words[3];
+                        streamEncode = words[4];
                     }
                     catch
                     {
@@ -560,6 +596,7 @@ namespace StreamDVR
                                             {
                                                 task.Definition.Triggers.RemoveAt(triggerIndex);
                                                 task.RegisterChanges();
+                                                break; //exit loop since we deleted trigger
                                             }
                                         }
                                         triggerIndex++;
@@ -643,6 +680,21 @@ namespace StreamDVR
             listBoxLivestreamerQuality.Items.Insert(newIndex, selected);
             // Restore selection
             listBoxLivestreamerQuality.SetSelected(newIndex, true);
+        }
+        
+        public void changeSaveButtonColor(bool saveRequired)
+        {
+            if (saveRequired)
+            {
+                //turn button red because the user needs to save changes
+                buttonConfigSave.BackColor = Color.Red;
+                buttonConfigSave.ForeColor = Color.White;
+            } else
+            {
+                //turn the button back to normal because save is complete
+                buttonConfigSave.BackColor = Color.Transparent;
+                buttonConfigSave.ForeColor = Color.Black;
+            }
         }
 
         public void createQualityString()

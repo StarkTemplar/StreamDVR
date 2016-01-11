@@ -4,7 +4,7 @@ REM read settings from ini file
 REM %0 is the script file name (with path), %~0 removes the surrounding " " ("%~0" == %0)
 REM Adding dp returns the drive and path to the file, instead of the file name itself
 REM found ini file reading from http://almanachackers.com/blog/2009/12/31/reading-an-ini-config-file-from-a-batch-file/
-set INIFILE="%~dp0StreamDVR.ini"
+set INIFILE="%~dp0\StreamDVR.ini"
 call:getvalue %INIFILE% "livestreamerEXE" "" livestreamerEXE
 call:getvalue %INIFILE% "handbrakeEXE" "" handbrakeEXE
 call:getvalue %INIFILE% "mediaplayerEXE" "" mediaplayerEXE
@@ -28,6 +28,9 @@ REM set date
 set mydate=%DATE%
 set mydate=%mydate:~-10%
 set mydate=%mydate:/=-%
+set mytime=%TIME:~0,8%
+set mytime=%mytime::=%
+set mydate=%mydate%_%mytime%
 
 REM set retry parameters
 set pingTimeout=300000
