@@ -43,8 +43,13 @@
             this.radioButtonMediaplayer2 = new System.Windows.Forms.RadioButton();
             this.buttonOK = new System.Windows.Forms.Button();
             this.buttonCancel = new System.Windows.Forms.Button();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.radioButtonWake1 = new System.Windows.Forms.RadioButton();
+            this.radioButtonWake2 = new System.Windows.Forms.RadioButton();
+            this.labelWake = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // labelStreamId
@@ -192,11 +197,56 @@
             this.buttonCancel.UseVisualStyleBackColor = true;
             this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
             // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.radioButtonWake1);
+            this.groupBox3.Controls.Add(this.radioButtonWake2);
+            this.groupBox3.Location = new System.Drawing.Point(486, 187);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Padding = new System.Windows.Forms.Padding(0);
+            this.groupBox3.Size = new System.Drawing.Size(157, 41);
+            this.groupBox3.TabIndex = 20;
+            this.groupBox3.TabStop = false;
+            // 
+            // radioButtonWake1
+            // 
+            this.radioButtonWake1.AutoSize = true;
+            this.radioButtonWake1.Location = new System.Drawing.Point(21, 16);
+            this.radioButtonWake1.Name = "radioButtonWake1";
+            this.radioButtonWake1.Size = new System.Drawing.Size(43, 17);
+            this.radioButtonWake1.TabIndex = 11;
+            this.radioButtonWake1.Text = "Yes";
+            this.radioButtonWake1.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonWake2
+            // 
+            this.radioButtonWake2.AutoSize = true;
+            this.radioButtonWake2.Checked = true;
+            this.radioButtonWake2.Location = new System.Drawing.Point(80, 16);
+            this.radioButtonWake2.Name = "radioButtonWake2";
+            this.radioButtonWake2.Size = new System.Drawing.Size(39, 17);
+            this.radioButtonWake2.TabIndex = 12;
+            this.radioButtonWake2.TabStop = true;
+            this.radioButtonWake2.Text = "No";
+            this.radioButtonWake2.UseVisualStyleBackColor = true;
+            // 
+            // labelWake
+            // 
+            this.labelWake.AutoSize = true;
+            this.labelWake.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelWake.Location = new System.Drawing.Point(19, 205);
+            this.labelWake.Name = "labelWake";
+            this.labelWake.Size = new System.Drawing.Size(301, 15);
+            this.labelWake.TabIndex = 19;
+            this.labelWake.Text = "Do you want your computer to wake for this recording?";
+            // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(655, 287);
+            this.ClientSize = new System.Drawing.Size(655, 321);
+            this.Controls.Add(this.groupBox3);
+            this.Controls.Add(this.labelWake);
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.buttonOK);
             this.Controls.Add(this.groupBox2);
@@ -215,6 +265,8 @@
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -236,5 +288,9 @@
         private System.Windows.Forms.RadioButton radioButtonMediaplayer2;
         private System.Windows.Forms.Button buttonOK;
         private System.Windows.Forms.Button buttonCancel;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.RadioButton radioButtonWake1;
+        private System.Windows.Forms.RadioButton radioButtonWake2;
+        private System.Windows.Forms.Label labelWake;
     }
 }

@@ -271,7 +271,7 @@ namespace StreamDVR
             settingsForm.ShowDialog();
             if (settingsForm.DialogResult != DialogResult.Cancel)
             {
-                addTask(settingsForm.form2StreamUrl, settingsForm.form2StreamTag, settingsForm.form2StreamTranscode, settingsForm.form2StreamMedia, false);
+                addTask(settingsForm.form2StreamUrl, settingsForm.form2StreamTag, settingsForm.form2StreamTranscode, settingsForm.form2StreamMedia, settingsForm.form2StreamWake, false);
             }
         }
 
@@ -376,7 +376,7 @@ namespace StreamDVR
             }
         }
 
-        public void addTask(string url, string tag, bool transcode, bool media, bool edit)
+        public void addTask(string url, string tag, bool transcode, bool media, bool wake, bool edit)
         {
             //variable to check if this task is unique
             bool taskValid = true;
@@ -414,6 +414,9 @@ namespace StreamDVR
                 taskDefinition.Actions.Add(new ExecAction(batPath, taskArguments, null));
                 taskDefinition.Principal.RunLevel = TaskRunLevel.Highest;
 
+                //set task wake condition based on bool wake
+                taskDefinition.Settings.WakeToRun = wake;
+
                 //check if this taskName already exists in StreamDVR folder
                 TaskFolder myFolder = ts.RootFolder.SubFolders["StreamDVR"];
                 foreach (Microsoft.Win32.TaskScheduler.Task allTasks in myFolder.AllTasks)
@@ -426,13 +429,13 @@ namespace StreamDVR
                             //task already exists and edit flag is set to false
                             DialogResult dialogResult = MessageBox.Show("That tag already exists. Tag must be unique", "Error", MessageBoxButtons.OK);
                             // Create a new instance of the Form2 class
-                            Form2 settingsForm = new Form2(url, tag, transcode, media);
+                            Form2 settingsForm = new Form2(url, tag, transcode, media, wake);
 
                             // Show the settings form
                             settingsForm.ShowDialog();
                             if (settingsForm.DialogResult != DialogResult.Cancel)
                             {
-                                addTask(settingsForm.form2StreamUrl, settingsForm.form2StreamTag, settingsForm.form2StreamTranscode, settingsForm.form2StreamMedia, false);
+                                addTask(settingsForm.form2StreamUrl, settingsForm.form2StreamTag, settingsForm.form2StreamTranscode, settingsForm.form2StreamMedia, settingsForm.form2StreamWake, false);
                             }
                         }
                         else
@@ -440,6 +443,7 @@ namespace StreamDVR
                             //task already exists and edit flag is set to true
                             allTasks.Definition.Actions.Clear();
                             allTasks.Definition.Actions.Add(new ExecAction(batPath, taskArguments, null));
+                            allTasks.Definition.Settings.WakeToRun = wake;
                             allTasks.RegisterChanges();
                         }
                     }
@@ -464,6 +468,7 @@ namespace StreamDVR
             string tag = selectedItem.SubItems[2].Text;
             bool transcode;
             bool media;
+            bool wake;
 
             if (selectedItem.SubItems[3].Text == "Y")
             {
@@ -481,15 +486,23 @@ namespace StreamDVR
             {
                 media = false;
             }
+            if (selectedItem.SubItems[5].Text == "Y")
+            {
+                wake = true;
+            }
+            else
+            {
+                wake = false;
+            }
 
             // Create a new instance of the Form2 class
-            Form2 settingsForm = new Form2(url, tag, transcode, media, true);
+            Form2 settingsForm = new Form2(url, tag, transcode, media, wake, true);
 
             // Show the settings form
             settingsForm.ShowDialog();
             if (settingsForm.DialogResult != DialogResult.Cancel)
             {
-                addTask(settingsForm.form2StreamUrl, settingsForm.form2StreamTag, settingsForm.form2StreamTranscode, settingsForm.form2StreamMedia, true);
+                addTask(settingsForm.form2StreamUrl, settingsForm.form2StreamTag, settingsForm.form2StreamTranscode, settingsForm.form2StreamMedia, settingsForm.form2StreamWake, true);
             }
         }
 
@@ -524,8 +537,9 @@ namespace StreamDVR
             string lastruntime;
             string streamUrl;
             string streamId;
+            string streamTranscode;
             string streamView;
-            string streamEncode;
+            string streamWake;
 
             if (fld.Name == "StreamDVR")
             {
@@ -541,17 +555,26 @@ namespace StreamDVR
                         string[] words = stream.Split(delimiterChars);
                         streamUrl = words[1];
                         streamId = words[2];
-                        streamView = words[3];
-                        streamEncode = words[4];
+                        streamTranscode = words[3];
+                        streamView = words[4];
                     }
                     catch
                     {
                         //task must not have parameters we are looking for
                         streamUrl = "";
                         streamId = "";
+                        streamTranscode = "";
                         streamView = "";
-                        streamEncode = "";
                     }
+                    //check if waketorun is true or false
+                    if (task.Definition.Settings.WakeToRun == true)
+                    {
+                        streamWake = "Y";
+                    } else
+                    {
+                        streamWake = "N";
+                    }
+
                     //check to see if next run time or last run time are null. this is returned as 1/1/0001 12:00:00 AM
                     if (nextruntime == "1/1/0001 12:00:00 AM")
                     {
@@ -561,7 +584,7 @@ namespace StreamDVR
                     {
                         lastruntime = "";
                     }
-                    listViewTasks.Items.Add(new ListViewItem(new string[] { task.Name, streamUrl, streamId, streamView, streamEncode, nextruntime, lastruntime }));
+                    listViewTasks.Items.Add(new ListViewItem(new string[] { task.Name, streamUrl, streamId, streamTranscode, streamView, streamWake, nextruntime, lastruntime }));
                 }
             }
             foreach (TaskFolder sfld in fld.SubFolders)

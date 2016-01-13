@@ -71,7 +71,7 @@
             this.streamUrl = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.streamId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.streamView = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.streamEncode = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.streamTranscode = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.NextRunTime = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.LastRunTime = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.buttonAddTrigger = new System.Windows.Forms.Button();
@@ -95,8 +95,9 @@
             this.richTextBoxWebsite = new System.Windows.Forms.RichTextBox();
             this.richTextBoxDonations = new System.Windows.Forms.RichTextBox();
             this.richTextBoxCredits = new System.Windows.Forms.RichTextBox();
-            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.richTextBoxLicense = new System.Windows.Forms.RichTextBox();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.streamWake = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tabControl1.SuspendLayout();
             this.tabPageConfig.SuspendLayout();
             this.groupBoxQuality.SuspendLayout();
@@ -119,7 +120,7 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(929, 666);
+            this.tabControl1.Size = new System.Drawing.Size(886, 666);
             this.tabControl1.SizeMode = System.Windows.Forms.TabSizeMode.FillToRight;
             this.tabControl1.TabIndex = 0;
             // 
@@ -134,7 +135,7 @@
             this.tabPageConfig.Location = new System.Drawing.Point(4, 24);
             this.tabPageConfig.Name = "tabPageConfig";
             this.tabPageConfig.Padding = new System.Windows.Forms.Padding(3, 12, 3, 3);
-            this.tabPageConfig.Size = new System.Drawing.Size(921, 638);
+            this.tabPageConfig.Size = new System.Drawing.Size(878, 638);
             this.tabPageConfig.TabIndex = 0;
             this.tabPageConfig.Text = "  Config  ";
             this.tabPageConfig.UseVisualStyleBackColor = true;
@@ -188,7 +189,7 @@
             this.groupBoxQuality.Location = new System.Drawing.Point(3, 328);
             this.groupBoxQuality.Name = "groupBoxQuality";
             this.groupBoxQuality.Padding = new System.Windows.Forms.Padding(12, 3, 3, 3);
-            this.groupBoxQuality.Size = new System.Drawing.Size(915, 261);
+            this.groupBoxQuality.Size = new System.Drawing.Size(872, 261);
             this.groupBoxQuality.TabIndex = 9;
             this.groupBoxQuality.TabStop = false;
             this.groupBoxQuality.Text = "Video Quality";
@@ -312,7 +313,7 @@
             this.groupBoxOutput.Location = new System.Drawing.Point(3, 170);
             this.groupBoxOutput.Name = "groupBoxOutput";
             this.groupBoxOutput.Padding = new System.Windows.Forms.Padding(12, 3, 3, 3);
-            this.groupBoxOutput.Size = new System.Drawing.Size(915, 158);
+            this.groupBoxOutput.Size = new System.Drawing.Size(872, 158);
             this.groupBoxOutput.TabIndex = 1;
             this.groupBoxOutput.TabStop = false;
             this.groupBoxOutput.Text = "Location of output files";
@@ -424,7 +425,7 @@
             this.groupBoxExe.Location = new System.Drawing.Point(3, 12);
             this.groupBoxExe.Name = "groupBoxExe";
             this.groupBoxExe.Padding = new System.Windows.Forms.Padding(12, 3, 3, 3);
-            this.groupBoxExe.Size = new System.Drawing.Size(915, 158);
+            this.groupBoxExe.Size = new System.Drawing.Size(872, 158);
             this.groupBoxExe.TabIndex = 0;
             this.groupBoxExe.TabStop = false;
             this.groupBoxExe.Text = "Location of supporting executables";
@@ -525,7 +526,7 @@
             this.tabPageSchedule.Location = new System.Drawing.Point(4, 24);
             this.tabPageSchedule.Name = "tabPageSchedule";
             this.tabPageSchedule.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageSchedule.Size = new System.Drawing.Size(921, 638);
+            this.tabPageSchedule.Size = new System.Drawing.Size(878, 638);
             this.tabPageSchedule.TabIndex = 1;
             this.tabPageSchedule.Text = "  Schedule  ";
             this.tabPageSchedule.UseVisualStyleBackColor = true;
@@ -552,7 +553,7 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 40F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(915, 639);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(872, 639);
             this.tableLayoutPanel1.TabIndex = 6;
             // 
             // listViewTasks
@@ -564,8 +565,9 @@
             this.taskName,
             this.streamUrl,
             this.streamId,
+            this.streamTranscode,
             this.streamView,
-            this.streamEncode,
+            this.streamWake,
             this.NextRunTime,
             this.LastRunTime});
             this.tableLayoutPanel1.SetColumnSpan(this.listViewTasks, 4);
@@ -597,18 +599,18 @@
             // 
             // streamView
             // 
-            this.streamView.Text = "Display Stream";
-            this.streamView.Width = 94;
+            this.streamView.Text = "Display";
+            this.streamView.Width = 59;
             // 
-            // streamEncode
+            // streamTranscode
             // 
-            this.streamEncode.Text = "Encode Stream";
-            this.streamEncode.Width = 99;
+            this.streamTranscode.Text = "Transcode";
+            this.streamTranscode.Width = 75;
             // 
             // NextRunTime
             // 
             this.NextRunTime.Text = "Next Run Time";
-            this.NextRunTime.Width = 194;
+            this.NextRunTime.Width = 174;
             // 
             // LastRunTime
             // 
@@ -698,7 +700,7 @@
             this.tabPageAbout.Controls.Add(this.tableLayoutPanel2);
             this.tabPageAbout.Location = new System.Drawing.Point(4, 24);
             this.tabPageAbout.Name = "tabPageAbout";
-            this.tabPageAbout.Size = new System.Drawing.Size(921, 638);
+            this.tabPageAbout.Size = new System.Drawing.Size(878, 638);
             this.tabPageAbout.TabIndex = 2;
             this.tabPageAbout.Text = "  About  ";
             this.tabPageAbout.UseVisualStyleBackColor = true;
@@ -733,7 +735,7 @@
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 100F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 80F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(921, 638);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(878, 638);
             this.tableLayoutPanel2.TabIndex = 0;
             // 
             // pictureBox1
@@ -875,10 +877,6 @@
             this.richTextBoxCredits.Text = resources.GetString("richTextBoxCredits.Text");
             this.richTextBoxCredits.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.richTextBoxCredits_LinkClicked);
             // 
-            // openFileDialog1
-            // 
-            this.openFileDialog1.FileName = "openFileDialog1";
-            // 
             // richTextBoxLicense
             // 
             this.richTextBoxLicense.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -892,13 +890,22 @@
             this.richTextBoxLicense.TabIndex = 12;
             this.richTextBoxLicense.Text = resources.GetString("richTextBoxLicense.Text");
             // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.FileName = "openFileDialog1";
+            // 
+            // streamWake
+            // 
+            this.streamWake.Text = "Wake";
+            this.streamWake.Width = 52;
+            // 
             // rootForm
             // 
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(929, 666);
+            this.ClientSize = new System.Drawing.Size(886, 666);
             this.Controls.Add(this.tabControl1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "rootForm";
@@ -973,7 +980,7 @@
         private System.Windows.Forms.ColumnHeader streamUrl;
         private System.Windows.Forms.ColumnHeader streamId;
         private System.Windows.Forms.ColumnHeader streamView;
-        private System.Windows.Forms.ColumnHeader streamEncode;
+        private System.Windows.Forms.ColumnHeader streamTranscode;
         private System.Windows.Forms.ListView listViewTriggers;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.ColumnHeader triggerDate;
@@ -994,6 +1001,7 @@
         private System.Windows.Forms.RichTextBox richTextBoxDonations;
         private System.Windows.Forms.RichTextBox richTextBoxCredits;
         private System.Windows.Forms.RichTextBox richTextBoxLicense;
+        private System.Windows.Forms.ColumnHeader streamWake;
     }
 }
 

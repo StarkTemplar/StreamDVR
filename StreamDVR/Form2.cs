@@ -16,6 +16,7 @@ namespace StreamDVR
         private string _form2StreamTag;
         private bool _form2StreamTranscode;
         private bool _form2StreamMedia;
+        private bool _form2StreamWake;
 
 
         public Form2()
@@ -23,7 +24,7 @@ namespace StreamDVR
             InitializeComponent();
         }
 
-        public Form2(string url, string tag, bool transcode, bool media)
+        public Form2(string url, string tag, bool transcode, bool media, bool wake)
         {
             InitializeComponent();
             textBoxStreamUrl.Text = url;
@@ -43,10 +44,17 @@ namespace StreamDVR
             else
             {
                 radioButtonMediaplayer1.Checked = false;
+            }
+            if (wake == true)
+            {
+                radioButtonWake1.Checked = true;
+            } else
+            {
+                radioButtonWake1.Checked = false;
             }
         }
 
-        public Form2(string url, string tag, bool transcode, bool media, bool locked)
+        public Form2(string url, string tag, bool transcode, bool media, bool wake, bool locked)
         {
             InitializeComponent();
             textBoxStreamUrl.Text = url;
@@ -66,6 +74,14 @@ namespace StreamDVR
             else
             {
                 radioButtonMediaplayer1.Checked = false;
+            }
+            if (wake == true)
+            {
+                radioButtonWake1.Checked = true;
+            }
+            else
+            {
+                radioButtonWake1.Checked = false;
             }
             if (locked == true)
             {
@@ -97,6 +113,12 @@ namespace StreamDVR
             set { _form2StreamMedia = value; }
         }
 
+        public bool form2StreamWake
+        {
+            get { return _form2StreamWake; }
+            set { _form2StreamWake = value; }
+        }
+
         private void radioButtonTranscode2_CheckedChanged(object sender, EventArgs e)
         {
 
@@ -124,6 +146,13 @@ namespace StreamDVR
                 else
                 {
                     form2StreamMedia = false;
+                }
+                if (radioButtonWake1.Checked == true)
+                {
+                    form2StreamWake = true;
+                } else
+                {
+                    form2StreamWake = false;
                 }
                 this.DialogResult = DialogResult.OK;
                 this.Close();
