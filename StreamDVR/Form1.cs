@@ -626,7 +626,16 @@ namespace StreamDVR
                                     }
                                 } else
                                 {
-                                    TriggerEditDialog triggerForm = new TriggerEditDialog();
+                                    TriggerEditDialog triggerForm;
+
+                                    if (task.Definition.Triggers.Count > 0) //if a trigger already exists, use that as the base for the new trigger
+                                    {
+                                        triggerForm = new TriggerEditDialog(task.Definition.Triggers[task.Definition.Triggers.Count - 1], false);
+                                    } else
+                                    {
+                                        triggerForm = new TriggerEditDialog();
+                                    }
+
                                     if (triggerForm.ShowDialog() == DialogResult.OK)
                                     {
                                         task.Definition.Triggers.Add(triggerForm.Trigger);
