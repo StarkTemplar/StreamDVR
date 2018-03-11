@@ -60,7 +60,7 @@ namespace StreamDVR
         private void buttonLivestreamer_Click(object sender, EventArgs e)
         {
             OpenFileDialog livestreamerDialog = new OpenFileDialog();
-            livestreamerDialog.Filter = "Executables (livestreamer.exe)|livestreamer.exe";
+            livestreamerDialog.Filter = "Executables (.exe)|.exe";
             livestreamerDialog.FilterIndex = 1;
             livestreamerDialog.Multiselect = false;
 

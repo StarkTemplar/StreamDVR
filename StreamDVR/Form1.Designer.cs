@@ -70,8 +70,9 @@
             this.taskName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.streamUrl = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.streamId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.streamView = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.streamTranscode = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.streamView = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.streamWake = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.NextRunTime = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.LastRunTime = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.buttonAddTrigger = new System.Windows.Forms.Button();
@@ -97,7 +98,6 @@
             this.richTextBoxCredits = new System.Windows.Forms.RichTextBox();
             this.richTextBoxLicense = new System.Windows.Forms.RichTextBox();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.streamWake = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tabControl1.SuspendLayout();
             this.tabPageConfig.SuspendLayout();
             this.groupBoxQuality.SuspendLayout();
@@ -277,9 +277,9 @@
             this.labelLivestreamerQuality.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelLivestreamerQuality.Location = new System.Drawing.Point(15, 35);
             this.labelLivestreamerQuality.Name = "labelLivestreamerQuality";
-            this.labelLivestreamerQuality.Size = new System.Drawing.Size(118, 15);
+            this.labelLivestreamerQuality.Size = new System.Drawing.Size(106, 15);
             this.labelLivestreamerQuality.TabIndex = 9;
-            this.labelLivestreamerQuality.Text = "Livestreamer Quality";
+            this.labelLivestreamerQuality.Text = "Streamlink Quality";
             // 
             // listBoxLivestreamerQuality
             // 
@@ -365,9 +365,9 @@
             this.labelLivestreamerOutput.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelLivestreamerOutput.Location = new System.Drawing.Point(15, 73);
             this.labelLivestreamerOutput.Name = "labelLivestreamerOutput";
-            this.labelLivestreamerOutput.Size = new System.Drawing.Size(125, 15);
+            this.labelLivestreamerOutput.Size = new System.Drawing.Size(113, 15);
             this.labelLivestreamerOutput.TabIndex = 4;
-            this.labelLivestreamerOutput.Text = "Livestreamer Output *";
+            this.labelLivestreamerOutput.Text = "Streamlink Output *";
             // 
             // textBoxLivestreamerOutput
             // 
@@ -507,9 +507,9 @@
             this.labelLivestreamer.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelLivestreamer.Location = new System.Drawing.Point(15, 37);
             this.labelLivestreamer.Name = "labelLivestreamer";
-            this.labelLivestreamer.Size = new System.Drawing.Size(86, 15);
+            this.labelLivestreamer.Size = new System.Drawing.Size(66, 15);
             this.labelLivestreamer.TabIndex = 1;
-            this.labelLivestreamer.Text = "Livestreamer *";
+            this.labelLivestreamer.Text = "Streamlink";
             // 
             // textBoxLivestreamer
             // 
@@ -597,15 +597,20 @@
             // 
             this.streamId.Text = "File Tag";
             // 
+            // streamTranscode
+            // 
+            this.streamTranscode.Text = "Transcode";
+            this.streamTranscode.Width = 75;
+            // 
             // streamView
             // 
             this.streamView.Text = "Display";
             this.streamView.Width = 59;
             // 
-            // streamTranscode
+            // streamWake
             // 
-            this.streamTranscode.Text = "Transcode";
-            this.streamTranscode.Width = 75;
+            this.streamWake.Text = "Wake";
+            this.streamWake.Width = 52;
             // 
             // NextRunTime
             // 
@@ -893,11 +898,6 @@
             // openFileDialog1
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
-            // 
-            // streamWake
-            // 
-            this.streamWake.Text = "Wake";
-            this.streamWake.Width = 52;
             // 
             // rootForm
             // 

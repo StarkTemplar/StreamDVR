@@ -67,7 +67,7 @@ for /L %%n in (1,1,%retryNumber%) do (
 	IF /I %watch% EQU Y (start cmd /k Call %openVideoBat% "%mediaplayerEXE%" !origFile!)
 
 	REM capture stream with retry params
-	"%livestreamerEXE%" !livestreamerOptions! -o !origFile! %stream% %quality% >> "%logDir%livestreamer_%mydate%_%filenameinput%.log"
+	"%livestreamerEXE%" !livestreamerOptions! -o !origFile! %stream% %quality% >> "%logDir%streamlink_%mydate%_%filenameinput%.log"
 
 	REM wait pingTimeout amount of time before trying stream again
 	ping 192.0.2.2 -n 1 -w %pingTimeout% > nul
